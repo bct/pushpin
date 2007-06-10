@@ -1,0 +1,171 @@
+/* http://www.openidenabled.com/openid/openid-login-box-css-class */
+input.openid_login {
+   background: url(http://openid.net/login-bg.gif) no-repeat;
+   background-color: #fff;
+   background-position: 0 50%;
+   color: #000;
+   padding-left: 18px;
+}
+
+.nav form { display: inline; }
+
+/* major stuff */
+.chunk, .collectionlist {
+  border-bottom: 1px dotted #667;
+  padding: 0.5em;
+  margin: 1em auto;
+  width: 80%;
+}
+
+.collectionlist ul {
+  list-style: none;
+}
+
+a:link {
+  color: #44A;
+}
+
+a:visited {
+  color: #445;
+}
+
+/*
+a:hover {
+}
+*/
+
+input#logout {
+}
+
+pre.error {
+  font-family: monospace;
+  background: #ecb;
+  margin: 1em;
+  padding: 1em;
+
+  white-space: pre-wrap;       /* css-3 */
+  white-space: -moz-pre-wrap;  /* Mozilla, since 1999 */
+  white-space: -pre-wrap;      /* Opera 4-6 */
+  white-space: -o-pre-wrap;    /* Opera 7 */
+  word-wrap: break-word;       /* Internet Explorer 5.5+ */
+}
+
+* {
+  font-family: sans-serif;
+}
+
+/* the main banner */
+.head h1 {
+  padding-left: 3em;
+  float:left;
+  width: 50%;
+  text-align: center;
+}
+
+ul.usernav {
+  width: 30%;
+  float:right;
+  list-style: none;
+}
+
+.main, h3 {
+  clear: both;
+}
+
+h2 {
+  margin: 0 0 0.4em 1em;
+}
+
+table.entries {
+  width: 80%;
+}
+
+table.entries th {
+}
+
+/* editor stuff */
+form {
+  margin: 0 auto;
+  width: 80%;
+  max-width: 40em;
+}
+
+label input, textarea, label select {
+  width: 70%;
+  margin-left: 10%;
+  border: 1px solid #ccc;
+}
+
+input.checkbox {
+  width: 1em;
+  height: 1em;
+  margin: 0.5em;
+}
+
+label.title, label.tags, label.url, label.rating {
+  float: left;
+  text-align: right;
+}
+
+label.title, label.url {
+  width: 50%;
+}
+
+label.title input, label.url input {
+  width: 76%;
+  margin-left: 8%;
+}
+
+label.tags, label.rating {
+  width: 30%;
+  margin-left: 2%;
+}
+
+label.tags input, label.rating select {
+  width: 60%;
+}
+
+.auth label {
+  display: block;
+  width: 60%;
+}
+
+.content {
+  clear: both;
+  padding-top: 0.3em;
+  min-width : 400px;
+}
+
+.content label {
+  width: 8%;
+  margin-right: 4%;
+  float: left;
+}
+
+.content textarea {
+  margin: 0;
+}
+
+.submit {
+  display: block;
+  margin: 0.3em auto;
+  height: 2em;
+
+  border: 1px solid #999;
+  background: #ddd;
+}
+
+/* navigation stuff */
+.nav {
+  list-style: none;
+  padding: 0;
+  text-align: center;
+}
+
+.nav li {
+  display: inline;
+  padding: 0;
+}
+
+.nav li:before { content: " | "; }
+.nav li:first-child:before { content: ""; }
