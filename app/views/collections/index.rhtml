@@ -1,0 +1,22 @@
+<h1>Listing collections</h1>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Url</th>
+  </tr>
+  
+<% for collection in @collections %>
+  <tr>
+    <td><%=h collection.title %></td>
+    <td><%=h collection.url %></td>
+    <td><%= link_to 'Show', collection_path(collection) %></td>
+    <td><%= link_to 'Edit', edit_collection_path(collection) %></td>
+    <td><%= link_to 'Destroy', collection_path(collection), :confirm => 'Are you sure?', :method => :delete %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New collection', new_collection_path %>
