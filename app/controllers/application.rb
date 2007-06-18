@@ -9,6 +9,12 @@ class ApplicationController < ActionController::Base
   # Pick a unique cookie name to distinguish our session data from others'
   session :session_key => '_pushpin2_session_id'
   
+  # get the logged in user object
+  def find_user
+    return nil if session[:user_id].nil?
+    User.find(session[:user_id])
+  end
+
   def new_atom_http
     http = Atom::HTTP.new
 

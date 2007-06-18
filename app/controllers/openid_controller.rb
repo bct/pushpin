@@ -103,11 +103,4 @@ class OpenidController < ApplicationController
 
     return OpenID::Consumer.new(session, store)
   end
-
-  # get the logged in user object
-  def find_user
-    return nil if session[:user_id].nil?
-    User.find(session[:user_id])
-  end
-  
 end
