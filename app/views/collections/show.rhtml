@@ -1,12 +1,11 @@
-<p>
-  <b>Title:</b>
-  <%=h @collection.title %>
-</p>
 
-<p>
-  <b>Url:</b>
-  <%=h @collection.url %>
-</p>
+<table>
+<% @acoll.each do |entry| %>
+
+<tr><td><%= entry.title %></td></tr>
+
+<% end %>
+</table>
 
 
 <%= link_to 'Edit', edit_collection_path(@collection) %> |

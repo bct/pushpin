@@ -1,8 +1,16 @@
 class CollectionsController < ApplicationController
+  before_filter :login_required, :only => [:new, :create]
+
   # GET /collections
   # GET /collections.xml
   def index
-    @collections = Collection.find(:all)
+    @user = find_user
+
+    if @user
+      @collections = @user.collections
+    else
+      @collections = []
+    end
 
     respond_to do |format|
       format.html # index.rhtml
@@ -14,6 +22,15 @@ class CollectionsController < ApplicationController
   # GET /collections/1.xml
   def show
     @collection = Collection.find(params[:id])
+
+    @acoll = Atom::Collection.new @collection.url, new_atom_http
+
+    @acoll.update!
+
+    if @acoll.title
+      @collection.title = @acoll.title.html
+      @collection.save
+    end
 
     respond_to do |format|
       format.html # show.rhtml
@@ -34,7 +51,7 @@ class CollectionsController < ApplicationController
   # POST /collections
   # POST /collections.xml
   def create
-    @collection = Collection.new(params[:collection])
+    @collection = Collection.new(params[:collection].merge(:user_id => session[:user_id]))
 
     respond_to do |format|
       if @collection.save
