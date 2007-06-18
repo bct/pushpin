@@ -1,0 +1,17 @@
+<h1>Editing collection</h1>
+
+<%= error_messages_for :collection %>
+
+<% form_for(:collection, :url => { :action => 'update' }, :html => { :method => :put }) do |f| %>
+  <p>
+    <b>Title</b><br />
+    <%= f.text_field :title %>
+  </p>
+
+  <p>
+    <%= submit_tag "Update" %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', :action => 'show', :url => @collection.url %> |
+<%= link_to 'Back', :controller => 'wall', :action => 'show' %>

@@ -9,24 +9,16 @@ module ApplicationHelper
     block_to_partial 'entry/editor', options.merge(:entry => entry, :action => action), &block
   end
 
-  # <input>s for atom:title and atom:categorys
-  def _title_tag(entry)
-    tags = entry.categories.map { |cat| cat['term'] }.join(' ')
-
-    return %{<label class="title">Title: <input name="title" value="#{entry.title}" /></label>
-<label class="tags">Tags: <input name="tags" value=#{tags}" /></label>}
-  end
-
   # a <textarea> for atom:summary
   def _summary_editor(content)
-    return %{<div class="content><label for="summary">Summary:</label><textarea name="summary" id="summary" cols="56" rows="16">#{CGI.escapeHTML(content)}</textarea></div>}
+    return %{<div class="content><label for="entry[summary]">Summary:</label><textarea name="summary" id="summary" cols="56" rows="16">#{CGI.escapeHTML(content)}</textarea></div>}
   end
  
   # a <textarea> for atom:content
   def _content_editor(content)
     return %{<div class="content">
   <label for="content">Content:</label>
-  <textarea name="content" id="content" cols="56" rows="16">#{CGI.escapeHTML(content)}</textarea>
+  <textarea name="entry[content]" id="content" cols="56" rows="16">#{CGI.escapeHTML(content)}</textarea>
 </div>}
   end
 
@@ -35,7 +27,8 @@ module ApplicationHelper
   def _markdown_content(entry)
     markdown = entry.content ? html_to_markdown(entry.content.html) : ''
     
-    return _content_editor(markdown) + %{<p class="info">you can use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a> syntax here.</p><input type="hidden" name="content_type" value="markdown" />}
+    return _content_editor(markdown) + %{<p class="info">you can use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a> syntax here.</p>
+<input type="hidden" name="entry[content_type]" value="markdown" />}
   end
 
   # input to this MUST be UTF-8

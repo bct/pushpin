@@ -15,6 +15,66 @@ class ApplicationController < ActionController::Base
     User.find(session[:user_id])
   end
 
+  # original: an Atom Entry that other parameters are filled into
+  # title
+  # tags: space separated categories
+  # summary
+  # content
+  # summary_type, content_type:
+  #   - text
+  #   - html
+  #   - xhtml
+  #   - markdown
+  # author:
+  #   name
+  #   uri
+  #   email
+  def make_entry(params)
+    entry = params[:original] ? Atom::Entry.parse(params[:original]) : Atom::Entry.new
+
+    entry.id = "urn:uuid:#{UUID.create}" unless entry.id
+
+    entry.title = params[:title]
+
+    if params[:tags]
+      entry.categories.clear
+      entry.tag_with params[:tags]
+    end
+
+    if author = params[:author]
+      a_auth = entry.authors.new
+      a_auth.name = author[:name] if author[:name]
+      a_auth.email = author[:email] if author[:email]
+
+      if uri = author[:uri]
+        uri = 'http://' + uri unless uri.match /^http/
+        a_auth.uri = uri
+      end
+    end
+
+    [:content, :summary].each do |sym|
+      if ptext = params[sym]
+        ptype = params[(sym.to_s + '_type').to_sym]
+
+        case ptype
+        when 'text', 'html', 'xhtml'
+          text = ptext
+          text = PushPin::HTML::xmlize_entities(ptext) if ptype == 'xhtml'
+        when 'markdown'
+          text = BlueCloth.new(ptext.to_s).to_html
+          type = 'html'
+        else
+          raise "don't know text construct type #{ptype.inspect}"
+        end
+
+        entry.send(sym.to_s + '=', text)
+        entry.send(sym)['type'] = (type or ptype)
+      end
+    end
+
+    entry
+  end
+
   def new_atom_http
     http = Atom::HTTP.new
 

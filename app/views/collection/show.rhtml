@@ -1,0 +1,23 @@
+<h2>collection "<%=@coll.title.to_s%>"</h2>
+
+<table class='entries'>
+<% @coll.each do |entry| %>
+
+<tr>
+  <td><%= entry.title.to_s.empty? ? "(no title)" : entry.title.to_s %></td>
+  <td><%= link_to 'edit', :controller => 'entry', :action => 'editor', :url => entry.edit_url, :coll_url => @coll.uri %></td>
+</tr>
+
+<% end %>
+</table>
+
+<h2>editor</h2>
+
+<% form_for(:entry, :action => 'create' ) do |f| %>
+  <%= render :partial => "entry/editor", :locals => { :f => f } %>
+  
+  <input type="hidden" name="url" value="<%=@coll_url%>" />
+<% end %>
+
+<%= link_to 'Edit', :action => 'edit', :url => @coll_url %> |
+<%= link_to 'Back', wall_path %>

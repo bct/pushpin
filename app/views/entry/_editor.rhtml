@@ -1,22 +1,23 @@
-<form action="<%=action%>" method="post">
-  <%= _title_tag(entry) %>
+  <label class='title'>Title: <%= f.text_field :title %></label>
+  <label class='tags'>Tags: <%= f.text_field :tags, :value => @entry.categories.map { |c| c['term'] }.join(' ') %></label>
 
-  <% if entry.summary %>
-    <%= _summary_editor(html_to_markdown(entry.summary.html)) %>
+  <% if @entry.summary %>
+    <%= _summary_editor(html_to_markdown(@entry.summary.html)) %>
     <input type="hidden" name="summary_type" value="markdown" />
   <% end %>
 
-  <% if entry.content and entry.content["src"] %>
+  <% if @entry.content and @entry.content["src"] %>
     <p class="content">
-      <% if entry.content["type"] and entry.content["type"].match(/^image\//) %>
-        Content: <img src="<%= entry.content["src"] %>" />
+      <% if @entry.content["type"] and @entry.content["type"].match(/^image\//) %>
+        Content: <img src="<%= @entry.content["src"] %>" />
       <% else %>
-        this entry has "<%= entry.content["type"] %>" content located <a href="<%= entry.content["src"] %>">here</a>.
+        this entry has "<%= @entry.content["type"] %>" content located <a href="<%= @entry.content["src"] %>">here</a>.
       <% end %>
     </p>
   <% else %>
-    <%= _markdown_content(entry) %>
+    <%= _markdown_content(@entry) %>
   <% end %>
 
-  <%= body %>
-</form>
+  <input type="hidden" name="entry[original]" value="<%=CGI.escapeHTML(@entry.to_s)%>" />
+
+  <input class="submit" type="submit" value="update it!" />

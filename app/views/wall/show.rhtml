@@ -1,0 +1,22 @@
+<h1>Listing collections</h1>
+
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Url</th>
+  </tr>
+  
+<% for collection in @collections %>
+  <tr>
+    <td><%=h collection.title %></td>
+    <td><%=h collection.url %></td>
+    <td><%= link_to 'Show', :controller => 'collection', :action => 'show', :url => collection.url %></td>
+    <td><%= link_to 'Edit', :controller => 'collection', :action => 'edit', :url => collection.url %></td>
+    <td><%= link_to 'Destroy', :controller => 'collection', :action => 'destroy', :url => collection.url, :confirm => 'Are you sure?' %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New collection', new_collection_path %>
