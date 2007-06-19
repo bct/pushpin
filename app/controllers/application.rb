@@ -40,9 +40,13 @@ class ApplicationController < ActionController::Base
 
     entry.title = params[:title]
 
-    if params[:tags]
+    unless params[:tags].empty?
       entry.categories.clear
       entry.tag_with params[:tags]
+    end
+
+    unless params[:draft].empty?
+      entry.draft = true
     end
 
     if author = params[:author]
@@ -88,10 +92,10 @@ class ApplicationController < ActionController::Base
       if @user
         auth = @user.auth_for(@abs_url, @realm)
       end
-      
+  
       if params[:user] and params[:pass]
         if @user and params[:store_auth] == 'yes'
-          auth ||= HttpAuth.new
+          auth ||= HTTPAuth.new
 
           auth.user_id = @user.id
           auth.abs_url = @abs_url

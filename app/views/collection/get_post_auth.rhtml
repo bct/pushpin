@@ -1,0 +1,20 @@
+<p>The server at <%= @abs_url %> needs you to authenticate.</p>
+
+<p>realm: <%= @realm %></p>
+
+<div class='auth chunk'>
+  <% form_tag do %>
+    <label>username: <input name="user"></label> 
+    <label>password: <input type="password" name="pass"></label> 
+
+    <input type="hidden" name="url" value="<%=h @coll_url %>">
+
+    <input name="entry[original]" type="hidden" value="<%=h @entry.to_s %>">
+
+    <% if @user -%>
+    <label>store these details? <input class="checkbox" name="store_auth" value="yes" type="checkbox"></label>
+    <% end -%>
+
+    <%= submit_tag 'authenticate' %>
+  <% end %>
+</div>

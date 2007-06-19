@@ -37,21 +37,24 @@ class CollectionController < ApplicationController
   end
 
   def create
+    @coll_url = params[:url]
+
     @user = find_user
     @entry = make_entry(params[:entry])
 
     @coll = Atom::Collection.new params[:url], new_atom_http
 
-    @res = @coll.post! @entry
+    begin
+      @res = @coll.post! @entry
 
-    respond_to do |format|
       if @res.code == '201'
-        flash[:notice] = 'Entry was successfully created.'
-        format.html { redirect_to :action => 'show', :url => params[:url] }
+        flash[:notice] = %{Entry was successfully created. <a href="#{@res["Location"]}">link</a>.}
+        redirect_to :action => 'show', :url => params[:url]
       else
-        format.html { render :action => "new" }
-        format.xml  { render :xml => @collection.errors.to_xml }
+        raise 'oops'
       end
+    rescue Atom::Unauthorized
+      render :get_post_auth
     end
   end
 

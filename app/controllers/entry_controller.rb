@@ -25,28 +25,38 @@ class EntryController < ApplicationController
  
     @entry = make_entry(params[:entry])
 
-    @res = new_atom_http.put_atom_entry(@entry, params[:url])
+    begin
+      @res = new_atom_http.put_atom_entry(@entry, params[:url])
 
-    if @res.code == '200'
-      flash[:notice] = 'Entry was successfully updated.'
-      redirect_to :controller => 'collection', :action => 'show', :url => @coll_url
-    else
-      render :action => 'edit'
+      if @res.code == '200'
+        flash[:notice] = 'Entry was successfully updated.'
+        redirect_to :controller => 'collection', :action => 'show', :url => @coll_url
+      else
+        raise 'oops'
+      end
+    rescue Atom::Unauthorized
+      render :action => 'get_put_auth'
     end
   end
 
   def destroy
     @user = find_user
-
     http = new_atom_http
 
-    res = http.delete(params[:url])
+    begin
+      @res = http.delete(params[:url])
 
-    if @res.code == '200'
-      flash[:notice] = 'Entry was deleted.'
-      redirect_to :cotroller => 'collection', :action => 'show', :url => params[:coll_url]
-    else
-      raise 'oops'
+      if @res.code == '200'
+        flash[:notice] = 'Entry was deleted.'
+        redirect_to :controller => 'collection', :action => 'show', :url => params[:coll_url]
+      else
+        raise 'oops'
+      end
+    rescue Atom::Unauthorized
+      @delete_url = params[:url]
+      @coll_url = params[:coll_url]
+
+      render :action => 'get_delete_auth'
     end
   end
 end
