@@ -34,4 +34,19 @@ class EntryController < ApplicationController
       render :action => 'edit'
     end
   end
+
+  def destroy
+    @user = find_user
+
+    http = new_atom_http
+
+    res = http.delete(params[:url])
+
+    if @res.code == '200'
+      flash[:notice] = 'Entry was deleted.'
+      redirect_to :cotroller => 'collection', :action => 'show', :url => params[:coll_url]
+    else
+      raise 'oops'
+    end
+  end
 end

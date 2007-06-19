@@ -15,6 +15,10 @@ class ApplicationController < ActionController::Base
     User.find(session[:user_id])
   end
 
+  def find_coll(url)
+    Collection.find(:first, :conditions => ['url = ? and user_id = ?', params[:url], @user])
+  end
+
   # original: an Atom Entry that other parameters are filled into
   # title
   # tags: space separated categories

@@ -1,13 +1,17 @@
 class CollectionController < ApplicationController
   before_filter :login_required, :only => [:new, :create]
 
+  layout 'collection'
+
   def show
+    @user = find_user
+    @collections = @user ? @user.collections : []
+    
     @coll_url = params[:url]
 
     @coll = Atom::Collection.new @coll_url, new_atom_http
     @coll.update!
 
-    @user = find_user
 
     if @coll.title
       coll = find_coll(@coll_url)
@@ -26,14 +30,10 @@ class CollectionController < ApplicationController
     end
   end
 
-  def new
-    @collection = Collection.new
-  end
-
   def edit
     @user = find_user
 
-    @collection = find_collection(params[:url])
+    @collection = find_coll(params[:url])
   end
 
   def create
@@ -67,20 +67,5 @@ class CollectionController < ApplicationController
         format.html { render :action => "edit" }
       end
     end
-  end
-
-  def destroy
-    @user = find_user
-    @collection = find_coll(params[:url])
-    
-    @collection.destroy
-
-    respond_to do |format|
-      format.html { redirect_to wall_url }
-    end
-  end
- 
-  def find_coll(url)
-    Collection.find(:first, :conditions => ['url = ? and user_id = ?', params[:url], @user])
   end
 end

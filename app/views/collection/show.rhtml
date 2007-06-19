@@ -1,3 +1,9 @@
+<ul>
+  <% @collections.each do |coll| %>
+  <li><%= link_to coll.title.to_s, :url => coll.url %></li>
+  <% end %>
+</ul>
+
 <h2>collection "<%=@coll.title.to_s%>"</h2>
 
 <table class='entries'>
@@ -6,6 +12,8 @@
 <tr>
   <td><%= entry.title.to_s.empty? ? "(no title)" : entry.title.to_s %></td>
   <td><%= link_to 'edit', :controller => 'entry', :action => 'editor', :url => entry.edit_url, :coll_url => @coll.uri %></td>
+  <td><%=  button_to "delete", { :controller => 'entry', :action => "destroy", :url => entry.edit_url, :coll_url => @coll.uri },
+    :confirm => "Are you sure?", :method => :delete %></td>
 </tr>
 
 <% end %>
