@@ -3,14 +3,9 @@
 <%= error_messages_for :collection %>
 
 <% form_for(:collection, :url => { :action => 'create' }) do |f| %>
-  <p>
-    <b>Url</b><br />
-    <%= f.text_field :url %>
-  </p>
+  <label>url: <%= f.text_field :url %>
 
-  <p>
-    <%= submit_tag "Create" %>
-  </p>
+  <%= submit_tag "Create" %>
 <% end %>
 
 <%= link_to 'Back', wall_path %>

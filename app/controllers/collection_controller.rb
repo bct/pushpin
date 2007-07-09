@@ -54,7 +54,7 @@ class CollectionController < ApplicationController
         raise 'oops'
       end
     rescue Atom::Unauthorized
-      render :get_post_auth
+      render :action => "get_post_auth"
     end
   end
 

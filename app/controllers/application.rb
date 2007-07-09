@@ -40,12 +40,12 @@ class ApplicationController < ActionController::Base
 
     entry.title = params[:title]
 
-    unless params[:tags].empty?
+    if params[:tags] and not params[:tags].empty?
       entry.categories.clear
       entry.tag_with params[:tags]
     end
 
-    unless params[:draft].empty?
+    if params[:draft] and not params[:draft].empty?
       entry.draft = true
     end
 

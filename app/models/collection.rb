@@ -4,4 +4,6 @@ class Collection < ActiveRecord::Base
   def title
     (super or self.url)
   end
+  
+  validates_uniqueness_of :url, :on => :create, :scope => [ :user_id ]
 end
