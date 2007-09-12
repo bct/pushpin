@@ -3,8 +3,6 @@ class WallController < ApplicationController
 
   # GET /wall
   def show
-    @user = find_user
-
     @collections = @user ? @user.collections : []
 
     respond_to do |format|
@@ -17,7 +15,6 @@ class WallController < ApplicationController
   end
 
   def create
-    @user = find_user
     _url = params[:collection][:url]
 
     http = new_atom_http
@@ -60,7 +57,6 @@ class WallController < ApplicationController
   end
 
   def destroy
-    @user = find_user
     @collection = find_coll(params[:url])
     
     @collection.destroy

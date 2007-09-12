@@ -10,8 +10,6 @@ class EntryController < ApplicationController
 
     # XXX check that 'url' was given
    
-    @user = find_user
-   
     @entry = new_atom_http.get_atom_entry @entry_url
   rescue Atom::Unauthorized
     render :action => 'get_auth'
@@ -21,8 +19,6 @@ class EntryController < ApplicationController
     @entry_url = params[:url]
     @coll_url = params[:coll_url]
 
-    @user = find_user
- 
     @entry = make_entry(params[:entry])
 
     begin
@@ -40,7 +36,6 @@ class EntryController < ApplicationController
   end
 
   def destroy
-    @user = find_user
     http = new_atom_http
 
     begin

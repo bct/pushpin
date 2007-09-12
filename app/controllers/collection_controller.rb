@@ -4,7 +4,6 @@ class CollectionController < ApplicationController
   layout 'collection'
 
   def show
-    @user = find_user
     @collections = @user ? @user.collections : []
     
     @coll_url = params[:url]
@@ -31,15 +30,12 @@ class CollectionController < ApplicationController
   end
 
   def edit
-    @user = find_user
-
     @collection = find_coll(params[:url])
   end
 
   def create
     @coll_url = params[:url]
 
-    @user = find_user
     @entry = make_entry(params[:entry])
 
     @coll = Atom::Collection.new params[:url], new_atom_http
@@ -59,7 +55,6 @@ class CollectionController < ApplicationController
   end
 
   def update
-    @user = find_user
     @collection = find_coll(params[:collection][:url])
 
     respond_to do |format|

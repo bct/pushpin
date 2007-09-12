@@ -6,13 +6,20 @@ require_dependency "openid_login_system"
 class ApplicationController < ActionController::Base
   include OpenidLoginSystem
 
+  before_filter :find_user
+
   # Pick a unique cookie name to distinguish our session data from others'
   session :session_key => '_pushpin2_session_id'
   
   # get the logged in user object
   def find_user
-    return nil if session[:user_id].nil?
-    User.find(session[:user_id])
+    @user = if session[:user_id].nil?
+              nil
+            else
+              User.find(session[:user_id])
+            end
+
+    true
   end
 
   def find_coll(url)
