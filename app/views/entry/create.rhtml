@@ -1,0 +1,7 @@
+What collection would you like to post this to?
+
+<%= form_tag :controller => 'collection', :action => 'create' %>
+  <input name="url" />
+
+  <input type="hidden" name="entry[complete]" value="<%=CGI.escapeHTML(@entry.to_s)%>" />
+</form>

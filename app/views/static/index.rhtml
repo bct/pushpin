@@ -1,0 +1,9 @@
+PushPin is a tool for writing entries to your Atom Publishing Protocol enabled weblog.
+
+Try it out in the <a href="http://necronomicorp.com/pushpin/sandbox">sandbox</a>.
+
+<% form_for(:entry, :url => {:controller => :entry, :action => 'create'}) do |f| %>
+  <%= render :partial => "entry/editor", :locals => { :f => f } %>
+
+  <input type="submit" value="save as draft" name='entry[draft]'/>
+<% end %>

@@ -10,8 +10,6 @@ rescue LoadError
 end
 
 class OpenidController < ApplicationController
-  layout  'scaffold'
-  
   # process the login request, disover the openid server, and
   # then redirect.
   def login

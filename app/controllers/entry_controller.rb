@@ -3,6 +3,10 @@ class EntryController < ApplicationController
   def index
   end
 
+  def create
+    @entry = make_entry(params[:entry])
+  end
+
   # edit an existing entry
   def editor
     @entry_url = params[:url]

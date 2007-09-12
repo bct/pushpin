@@ -1,6 +1,4 @@
 class WallController < ApplicationController
-  layout "scaffold"
-
   # GET /wall
   def show
     @collections = @user ? @user.collections : []

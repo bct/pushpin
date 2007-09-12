@@ -10,7 +10,9 @@ class ApplicationController < ActionController::Base
 
   # Pick a unique cookie name to distinguish our session data from others'
   session :session_key => '_pushpin2_session_id'
-  
+
+  layout "base"
+
   # get the logged in user object
   def find_user
     @user = if session[:user_id].nil?
@@ -26,6 +28,7 @@ class ApplicationController < ActionController::Base
     Collection.find(:first, :conditions => ['url = ? and user_id = ?', params[:url], @user])
   end
 
+  # entry: a complete Atom Entry
   # original: an Atom Entry that other parameters are filled into
   # title
   # tags: space separated categories
@@ -41,6 +44,10 @@ class ApplicationController < ActionController::Base
   #   uri
   #   email
   def make_entry(params)
+    if params[:complete]
+      return Atom::Entry.parse(params[:complete])
+    end
+
     entry = params[:original] ? Atom::Entry.parse(params[:original]) : Atom::Entry.new
 
     entry.id = "urn:uuid:#{UUID.create}" unless entry.id
