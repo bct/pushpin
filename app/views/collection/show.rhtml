@@ -1,4 +1,4 @@
-<ul>
+<ul id="tabnav">
   <% @collections.each do |coll| %>
   <li><%= link_to coll.title.to_s, :url => coll.url %></li>
   <% end %>
