@@ -11,7 +11,7 @@
 
 <tr>
   <td><%= entry.title.to_s.empty? ? "(no title)" : h(entry.title.to_s) %></td>
-  <td><%= sanitize_html(entry.content.html) %>
+  <td><%= entry.content.to_s.empty? ? "(no content)" : sanitize_html(entry.content.html) %>
   <td><%= link_to 'edit', :controller => 'entry', :action => 'editor', :url => entry.edit_url, :coll_url => @coll.uri %></td>
   <td><%=  button_to "delete", { :controller => 'entry', :action => "destroy", :url => entry.edit_url, :coll_url => @coll.uri },
     :confirm => "Are you sure?", :method => :delete %></td>
