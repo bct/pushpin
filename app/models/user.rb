@@ -10,7 +10,7 @@ class User < ActiveRecord::Base
   end
 
   def self.get(openid_url)
-    find(:first, ["openid_url = ?", openid_url])
+    find(:first, :conditions => ["openid_url = ?", openid_url])
   end  
   
   protected

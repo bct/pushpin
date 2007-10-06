@@ -45,9 +45,8 @@ class OpenidController < ApplicationController
     
     case response.status
     when OpenID::SUCCESS
-
       @user = User.get(response.identity_url)
-      
+
       # create user object if one does not exist
       if @user.nil?
         @user = User.new(:openid_url => response.identity_url)
