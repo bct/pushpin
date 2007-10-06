@@ -1,6 +1,6 @@
 <ul id="tabnav">
   <% @collections.each do |coll| %>
-  <li><%= link_to coll.title.to_s, :url => coll.url %></li>
+    <li <%= 'class="selected"' if @coll.uri.to_s == coll.url %>><%= link_to coll.title.to_s, :url => coll.url %></li>
   <% end %>
 </ul>
 
@@ -28,6 +28,3 @@
   <input type="submit" value="save as draft" name='entry[draft]'/> 
   <input type="hidden" name="url" value="<%=@coll_url%>" />
 <% end %>
-
-<%= link_to 'Edit', :action => 'edit', :url => @coll_url %> |
-<%= link_to 'Back', wall_path %>

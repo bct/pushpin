@@ -10,11 +10,22 @@
 </head>
 <body>
 
-<%= render :partial => "layouts/login" %>
+<div class="head">
+  <h1><%= link_to 'PushPin', :controller => 'static', :action => 'index' %></h1>
+      
+  <%= render :partial => "layouts/login" %>
+</div>
 
+<div class="main">
 <p style="color: green"><%= flash[:notice] %></p>
 
 <%= yield  %>
+</div>
+
+<ul class="nav">
+  <li><a href="http://necronomicorp.com/lab/tag/pushpin">blog</a></li>
+  <li><a href="http://necronomicorp.com/bct">brendan taylor</a></li>
+</ul>
 
 </body>
 </html>

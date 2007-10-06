@@ -1,9 +1,13 @@
-<% if @user %>
-  <%= form_tag :controller => 'logout' %>
-    <input type="submit" value="logout."/>
-  </form>
-<% else %>
-  <%= form_tag :controller => 'login' %>
-    <input name="openid_url"/> <input type="submit" value="login."/>
-  </form>
-<% end %>
+<ul class="usernav">
+  <li>
+    <% if @user %>
+      <%= form_tag :controller => 'logout' %>
+        <input type="submit" value="log out."/>
+      </form>
+    <% else %>
+      <%= form_tag :controller => 'login' %>
+        <input name="openid_url" class="openid_login"/> <input type="submit" value="log in."/>
+      </form>
+    <% end %>
+  </li>
+</ul>

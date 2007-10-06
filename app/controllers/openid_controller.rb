@@ -57,8 +57,6 @@ class OpenidController < ApplicationController
       # storing both the openid_url and user id in the session for for quick
       # access to both bits of information.  Change as needed.
       session[:user_id] = @user.id
-
-      flash[:notice] = "Logged in as #{CGI::escape(response.identity_url)}"
        
       redirect_back_or_default wall_path
       return
