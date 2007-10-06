@@ -21,7 +21,7 @@ class OpenidController < ApplicationController
       case request.status
       when OpenID::SUCCESS
         return_to = url_for(:action=> 'complete')
-        trust_root = url_for(:controller=>'')
+        trust_root = url_for(:controller => 'static', :action => 'index')
 
         url = request.redirect_url(trust_root, return_to)
         redirect_to(url)
@@ -81,11 +81,10 @@ class OpenidController < ApplicationController
   
   def logout
     session[:user_id] = nil
+
+    redirect_to :controller => 'static', :action => 'index'
   end
     
-  def welcome
-  end
-
   private
 
   # Get the OpenID::Consumer object.
