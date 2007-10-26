@@ -4,6 +4,26 @@
   <% end %>
 </ul>
 
+<%= javascript_include_tag "jquery" %>
+
+<%= javascript_tag <<END
+
+function deletedEntry(tr) {
+  tr.fadeOut(function() { $(this).remove(); });
+}
+
+$(document).ready(function(){
+  $(".delete").click(function(){
+    var form = $(this).parents("form");
+
+    var $tr = $(this).parents("tr");
+    $.post(form.attr("action"), {"_method": "delete"}, function(){ deletedEntry($tr) });
+    return false;
+  });
+});
+END
+%>
+
 <h2>collection "<%=@coll.title.to_s%>"</h2>
 
 <% unless @coll.empty? %>
@@ -23,7 +43,7 @@
                                   :action => "destroy",
                                   :url => entry.edit_url,
                                   :coll_url => @coll.uri },
-                                  :confirm => "Are you sure?",
+                                  :class => 'delete',
                                   :method => :delete %></td>
   </tr>
 
