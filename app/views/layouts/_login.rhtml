@@ -1,13 +1,16 @@
 <ul class="usernav">
-  <li>
-    <% if @user %>
+  <% if @user %>
+    <li>
       <%= form_tag :controller => 'logout' %>
         <input type="submit" value="log out."/>
       </form>
-    <% else %>
+    </li>
+    <li><%= link_to 'your collections', :controller => 'wall' %></li>
+  <% else %>
+    <li>
       <%= form_tag :controller => 'login' %>
         <input name="openid_url" class="openid_login"/> <input type="submit" value="log in."/>
       </form>
-    <% end %>
-  </li>
+    </li>
+  <% end %>
 </ul>
