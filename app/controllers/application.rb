@@ -98,7 +98,7 @@ class ApplicationController < ActionController::Base
   end
 
   def new_atom_http
-    http = Atom::HTTP.new
+    http = Atom::HTTP.new($http_cache_dir)
 
     http.when_auth do |abs_url, realm|
       @abs_url, @realm = abs_url, realm

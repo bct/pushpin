@@ -60,3 +60,5 @@ end
 # Include your application configuration below
 
 require "atom/service"
+
+$http_cache_dir = "./tmp/httpcache"
