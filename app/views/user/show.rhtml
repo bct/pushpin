@@ -1,0 +1,11 @@
+<h1>Editing user</h1>
+
+<%= error_messages_for :user %>
+
+<% form_for(:user) do |f| %>
+  Name: <%= f.text_field :name %>
+  URI: <%= f.text_field :uri %>
+  <p>
+    <%= submit_tag "Update" %>
+  </p>
+<% end %>
