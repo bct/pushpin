@@ -8,7 +8,7 @@ class EntryController < ApplicationController
   end
 
   # edit an existing entry
-  def editor
+  def edit
     @entry_url = params[:url]
     @coll_url = params[:coll_url]
 
