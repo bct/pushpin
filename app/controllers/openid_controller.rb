@@ -26,17 +26,15 @@ class OpenidController < ApplicationController
         url = request.redirect_url(trust_root, return_to)
         redirect_to(url)
         return
-
       when OpenID::FAILURE
-        escaped_url = CGI::escape(openid_url)
+        escaped_url = CGI.escapeHTML(openid_url)
         flash[:notice] = "Could not find OpenID server for #{escaped_url}"
-        
       else
         flash[:notice] = "An unknown error occured."
+      end
 
-      end      
+      redirect_to :controller => "static", :action => "index"
     end    
-
   end
 
   # handle the openid server response
@@ -45,13 +43,7 @@ class OpenidController < ApplicationController
     
     case response.status
     when OpenID::SUCCESS
-      @user = User.get(response.identity_url)
-
-      # create user object if one does not exist
-      if @user.nil?
-        @user = User.new(:openid_url => response.identity_url)
-        @user.save
-      end
+      @user = User.find_or_create_by_openid_url(response.identity_url)
 
       # storing both the openid_url and user id in the session for for quick
       # access to both bits of information.  Change as needed.
@@ -62,20 +54,18 @@ class OpenidController < ApplicationController
 
     when OpenID::FAILURE
       if response.identity_url
-        flash[:notice] = "Verification of #{response.identity_url} failed."
-
+        escaped_url = CGI.escapeHTML(response.identity_url)
+        flash[:notice] = "Verification of #{escaped_url} failed."
       else
         flash[:notice] = 'Verification failed.'
       end
-
     when OpenID::CANCEL
       flash[:notice] = 'Verification cancelled.'
-
     else
       flash[:notice] = 'Unknown response from OpenID server.'
     end
   
-    redirect_to :action => 'login'
+    redirect_to :controller => "static", :action => "index"
   end
   
   def logout
