@@ -42,20 +42,40 @@ class EntryController < ApplicationController
   def destroy
     http = new_atom_http
 
+    @unauthorized = false
     begin
       @res = http.delete(params[:url])
-
-      if @res.code == '200'
-        flash[:notice] = 'Entry was deleted.'
-        redirect_to :controller => 'collection', :action => 'show', :url => params[:coll_url]
-      else
-        raise 'oops'
-      end
     rescue Atom::Unauthorized
-      @delete_url = params[:url]
-      @coll_url = params[:coll_url]
+      @unauthorized = true
+    end
 
-      render :action => 'get_delete_auth'
+    respond_to do |wants|
+      wants.html do
+        unless @unauthorized
+          if @res.code == '200'
+            flash[:notice] = 'Entry was deleted.'
+            redirect_to :controller => 'collection', :action => 'show', :url => params[:coll_url]
+          else
+            raise 'oops'
+          end
+        else
+          @delete_url = params[:url]
+          @coll_url = params[:coll_url]
+
+          render :action => 'get_delete_auth'
+        end
+      end
+      wants.json do
+        unless @unauthorized
+          if @res.code == '200'
+            render :json => {:status => "success"}.to_json
+          else
+            raise 'oops'
+          end
+        else
+          render :json => {:status => "unauthorized"}.to_json, :status => 401
+        end
+      end
     end
   end
 end

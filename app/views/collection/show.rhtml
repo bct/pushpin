@@ -11,12 +11,33 @@ function deletedEntry(tr) {
   tr.fadeOut(function() { $(this).remove(); });
 }
 
+function failDeleteEntry(xhr, tr) {
+  var statustd = tr.children(":last")
+  if (xhr.status == 401) {
+    statustd.text("unauthorized.");
+  } else {
+    statustd.text("unknown error.");
+  }
+}
+
 $(document).ready(function(){
   $(".delete").click(function(){
+    $(this).attr("disabled", "disabled");
     var form = $(this).parents("form");
 
-    var $tr = $(this).parents("tr");
-    $.post(form.attr("action"), {"_method": "delete"}, function(){ deletedEntry($tr) });
+    var tr = $(this).parents("tr");
+
+    tr.append('<td>#{image_tag "spinner_moz.gif", :size => "16x16"}</td>')
+
+    $.ajax({ type: "POST",
+             url: form.attr("action"),
+             beforeSend: function(xhr) { xhr.setRequestHeader("Accept", "application/json") },
+             data: form.serialize(),
+             dataType: "json",
+             success: function(data, textstatus) { deletedEntry(tr) },
+             error: function(xhr, textstatus, error) { failDeleteEntry(xhr, tr) }
+             })
+
     return false;
   });
 });
