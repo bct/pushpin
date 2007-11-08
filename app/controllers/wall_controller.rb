@@ -1,7 +1,9 @@
 class WallController < ApplicationController
   # GET /wall
   def show
-    @collections = @user ? @user.collections : []
+    return redirect_to :controller => 'static', :action => 'index' unless @user
+
+    @collections = @user.collections
 
     respond_to do |format|
       format.html # index.rhtml

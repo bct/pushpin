@@ -21,9 +21,9 @@ class CollectionController < ApplicationController
 
     @entry = Atom::Entry.new
 
-    respond_to do |format|
-      format.html # show.rhtml
-      format.xml  { render :xml => @collection.to_xml }
+    respond_to do |wants|
+      wants.html # show.rhtml
+      wants.xml  { render :xml => @collection.to_xml }
     end
   end
 
