@@ -15,7 +15,9 @@ class WallController < ApplicationController
   end
 
   def create
-    _url = params[:collection][:url]
+    @coll_url = params[:collection][:url]
+
+    @coll_url = "http://" + @coll_url unless @coll_url.match(/^http/)
 
     http = new_atom_http
     res = http.get(@coll_url, "Accept" => "application/atom+xml;type=feed, application/atomsvc+xml, application/xhtml+xml;q=0.6, text/html;q=0.5")
