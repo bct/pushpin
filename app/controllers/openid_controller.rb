@@ -43,15 +43,21 @@ class OpenidController < ApplicationController
     
     case response.status
     when OpenID::SUCCESS
-      @user = User.find_or_create_by_openid_url(response.identity_url)
+      @user = User.find_or_initialize_by_openid_url(response.identity_url)
 
-      # storing both the openid_url and user id in the session for for quick
-      # access to both bits of information.  Change as needed.
-      session[:user_id] = @user.id
-       
-      redirect_back_or_default wall_path
+      if @user.new_record?
+        # redirect them to their settings page on first login
+        @user.save
+        session[:user_id] = @user.id
+
+        redirect_to :controller => "user", :action => "show"
+      else
+        session[:user_id] = @user.id
+
+        redirect_back_or_default wall_path
+      end
+
       return
-
     when OpenID::FAILURE
       if response.identity_url
         escaped_url = CGI.escapeHTML(response.identity_url)
