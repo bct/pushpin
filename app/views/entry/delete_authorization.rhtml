@@ -3,7 +3,7 @@
 <p>realm: <%= @realm %></p>
 
 <div class='auth chunk'>
-  <% form_tag do %>
+  <% form_tag entry_path, :method => :delete do %>
     <label>username: <input name="user"></label> 
     <label>password: <input type="password" name="pass"></label> 
 

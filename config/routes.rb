@@ -1,11 +1,8 @@
 ActionController::Routing::Routes.draw do |map|
   # first created -> highest priority.
  
-  map.resource :entry, :collection, :wall, :user
-
-  map.connect 'login', :controller => 'openid', :action => 'login'
-  map.connect 'complete', :controller => 'openid', :action => 'complete'
-  map.connect 'logout', :controller => 'openid', :action => 'logout'
+  map.resource :entry, :wall, :user, :collection
+  map.resource :entry, :collection => { :delete_authorization => :get }
 
   map.connect '', :controller => 'static', :action => 'index'
   
@@ -18,6 +15,9 @@ ActionController::Routing::Routes.draw do |map|
   # This route can be invoked with purchase_url(:id => product.id)
 
   # uses non-REST routing
-  map.connect 'openid/:action', :controller => 'openid'
+  map.connect 'login', :controller => 'openid', :action => 'login'
+  map.connect 'complete', :controller => 'openid', :action => 'complete'
+  map.connect 'logout', :controller => 'openid', :action => 'logout'
+
   map.connect 'openid/:action', :controller => 'openid'
 end

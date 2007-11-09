@@ -15,7 +15,10 @@ function deletedEntry(tr) {
 function failDeleteEntry(xhr, tr) {
   var statustd = tr.children(":last")
   if (xhr.status == 401) {
-    statustd.text("unauthorized.");
+    params = eval('(' + xhr.responseText + ')');
+    delete params.response;
+    var auth_url = "#{delete_authorization_entry_path}?" + jQuery.param(params);
+    statustd.html("<a href='" + auth_url + "'>enter login data</a>.");
   } else {
     statustd.text("unknown error.");
   }

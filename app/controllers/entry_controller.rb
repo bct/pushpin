@@ -59,7 +59,7 @@ class EntryController < ApplicationController
             raise "the server at #{@delete_url} responded to my PUT with unexpected status code #{@res.code}"
           end
         else
-          render :action => 'get_delete_auth'
+          render :action => 'delete_authorization'
         end
       end
       wants.json do
@@ -70,9 +70,20 @@ class EntryController < ApplicationController
             raise 'oops'
           end
         else
-          render :json => {:status => "unauthorized"}.to_json, :status => 401
+          render :json => {:status => "unauthorized",
+                           :url => @delete_url,
+                           :coll_url => @coll_url,
+                           :abs_url => @abs_url,
+                           :realm => @realm           }.to_json, :status => 401
         end
       end
     end
+  end
+
+  def delete_authorization
+    @delete_url = params[:url]
+    @coll_url = params[:coll_url]
+    @abs_url = params[:abs_url]
+    @realm = params[:realm]
   end
 end
