@@ -2,7 +2,7 @@ class CreateUsers < ActiveRecord::Migration
   def self.up
     create_table :users do |t|
       t.column :openid_url, :string, :null => false
-      t.column :name, :string
+      t.column :name, :string, :default => "anonymous"
       t.column :uri, :string
     end
 
