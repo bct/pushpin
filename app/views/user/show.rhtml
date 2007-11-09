@@ -1,8 +1,10 @@
-<h1>Editing user</h1>
+<h2>your settings.</h2>
 
 <%= error_messages_for :user %>
 
 <% form_for(:user) do |f| %>
+  <p>These settings will be sent with every entry that you publish.</p>
+
   Name: <%= f.text_field :name %>
   URI: <%= f.text_field :uri %>
   <p>
