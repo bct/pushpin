@@ -18,18 +18,18 @@ class WallController < ApplicationController
     _url = params[:collection][:url]
 
     http = new_atom_http
-    res = http.get(_url, "Accept" => "application/atom+xml;type=feed, application/atomsvc+xml, application/xhtml+xml;q=0.6, text/html;q=0.5")
+    res = http.get(@coll_url, "Accept" => "application/atom+xml;type=feed, application/atomsvc+xml, application/xhtml+xml;q=0.6, text/html;q=0.5")
 
     if res.code == '200'
       case res["Content-Type"]
       when /application\/atom\+xml/
-        @collection = Collection.new(:url => _url, :user_id => @user)
+        @collection = Collection.new(:url => @coll_url, :user_id => @user)
 
         if @collection.save
           flash[:notice] = 'Collection was successfully created.'
           redirect_to :controller => 'collection', :action => 'show', :url => @collection.url
         else
-          raise "oops"
+          raise "couldn't save collection"
         end
       when /application\/atomsvc\+xml/
         @service = Atom::Service.parse(res.body)
@@ -44,15 +44,15 @@ class WallController < ApplicationController
           @collections << coll
         end
 
-        flash[:notice] = "I added the collections I found there."
+        flash[:notice] = "i added the collections i found there."
         redirect_to :action => 'show'
       when /text\/html/, /application\/xhtml\+xml/
-        raise "autodiscovery not yet implemented" 
+        raise "collection autodiscovery from HTML not yet implemented"
       else
-        raise "oops"
+        raise "i don't know how to get a collection from a document of type #{res['Content-Type']}"
       end
     else
-      raise "oops"
+      raise "#{@coll_url} responded with unexpected status: #{res.code}"
     end
   end
 

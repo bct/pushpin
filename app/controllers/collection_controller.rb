@@ -9,7 +9,6 @@ class CollectionController < ApplicationController
     @coll = Atom::Collection.new @coll_url, new_atom_http
     @coll.update!
 
-
     if @coll.title
       coll = find_coll(@coll_url)
 
@@ -45,7 +44,7 @@ class CollectionController < ApplicationController
         flash[:notice] = %{Entry was successfully created. <a href="#{@res["Location"]}">link</a>.}
         redirect_to :action => 'show', :url => params[:url]
       else
-        raise 'oops'
+        raise "the server at #{@coll_url} responded to my POST with unexpected status code #{@res.code}"
       end
     rescue Atom::Unauthorized
       render :action => "get_post_auth"

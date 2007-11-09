@@ -1,7 +1,6 @@
 class EntryController < ApplicationController
   # create a new entry
-  def index
-  end
+  def index; end
 
   def create
     @entry = make_entry(params[:entry])
@@ -26,13 +25,13 @@ class EntryController < ApplicationController
     @entry = make_entry(params[:entry])
 
     begin
-      @res = new_atom_http.put_atom_entry(@entry, params[:url])
+      @res = new_atom_http.put_atom_entry(@entry, @entry_url)
 
       if @res.code == '200'
         flash[:notice] = 'Entry was successfully updated.'
         redirect_to :controller => 'collection', :action => 'show', :url => @coll_url
       else
-        raise 'oops'
+        raise "the server at #{@entry_url} responded to my PUT with unexpected status code #{@res.code}"
       end
     rescue Atom::Unauthorized
       render :action => 'get_put_auth'
@@ -40,11 +39,12 @@ class EntryController < ApplicationController
   end
 
   def destroy
-    http = new_atom_http
+    @delete_url = params[:url]
+    @coll_url = params[:coll_url]
 
     @unauthorized = false
     begin
-      @res = http.delete(params[:url])
+      @res = new_atom_http.delete(@delete_url)
     rescue Atom::Unauthorized
       @unauthorized = true
     end
@@ -54,14 +54,11 @@ class EntryController < ApplicationController
         unless @unauthorized
           if @res.code == '200'
             flash[:notice] = 'Entry was deleted.'
-            redirect_to :controller => 'collection', :action => 'show', :url => params[:coll_url]
+            redirect_to :controller => 'collection', :action => 'show', :url => @coll_url
           else
-            raise 'oops'
+            raise "the server at #{@delete_url} responded to my PUT with unexpected status code #{@res.code}"
           end
         else
-          @delete_url = params[:url]
-          @coll_url = params[:coll_url]
-
           render :action => 'get_delete_auth'
         end
       end
