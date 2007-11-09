@@ -2,6 +2,7 @@
   <% @collections.each do |coll| %>
     <li<%= ' class="selected"' if @coll.uri.to_s == coll.url %>><%= link_to coll.title.to_s, :url => coll.url %></li>
   <% end %>
+  <li><%= link_to "add collection", new_wall_path %></li>
 </ul>
 
 <%= javascript_include_tag "jquery" %>
