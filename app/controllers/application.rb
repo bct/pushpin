@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
   end
 
   def find_coll(url)
-    Collection.find(:first, :conditions => ['url = ? and user_id = ?', params[:url], @user])
+    Collection.find(:first, :conditions => ['url = ? and user_id = ?', url, @user])
   end
 
   # entry: a complete Atom Entry
