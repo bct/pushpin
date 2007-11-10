@@ -88,7 +88,7 @@ form {
 
 label input, textarea, label select {
   width: 70%;
-  margin-left: 10%;
+  margin-left: 5%;
   border: 1px solid #ccc;
 }
 
@@ -96,6 +96,12 @@ input.checkbox {
   width: 1em;
   height: 1em;
   margin: 0.5em;
+}
+
+label {
+  display: block;
+  width: 60%;
+  text-align: right;
 }
 
 label.title, label.tags, label.url, label.rating {
@@ -118,11 +124,6 @@ label.tags, label.rating {
 }
 
 label.tags input, label.rating select {
-  width: 60%;
-}
-
-.auth label {
-  display: block;
   width: 60%;
 }
 

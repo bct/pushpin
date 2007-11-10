@@ -4,8 +4,9 @@
 
 <div class='auth chunk'>
   <% form_tag entry_path, :method => :delete do %>
-    <label>username: <input name="user"></label> 
-    <label>password: <input type="password" name="pass"></label> 
+
+    <label>username: <input name="user"></label><br />
+    <label>password: <input type="password" name="pass"></label><br />
 
     <input type="hidden" name="url" value="<%=h @delete_url %>">
     <input type="hidden" name="coll_url" value="<%=h @coll_url %>">
