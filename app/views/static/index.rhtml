@@ -12,6 +12,10 @@
 
 <div class="chunk">
   <h3>edit a collection.</h3>
+  <% form_tag collection_path, :method => :get do %>
+    <label>collection URI: <input name="url" /></label><br />
+    <input type="submit" value="edit collection" />
+  <% end %>
   <p>
   You can try it out in the <a href="http://necronomicorp.com/pushpin/sandbox">sandbox</a>.
   </p>
