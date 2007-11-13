@@ -61,12 +61,12 @@ class OpenidController < ApplicationController
     when OpenID::FAILURE
       if response.identity_url
         escaped_url = CGI.escapeHTML(response.identity_url)
-        flash[:notice] = "Verification of #{escaped_url} failed."
+        flash[:notice] = "OpenID verification for #{escaped_url} failed."
       else
-        flash[:notice] = 'Verification failed.'
+        flash[:notice] = 'OpenID verification failed.'
       end
     when OpenID::CANCEL
-      flash[:notice] = 'Verification cancelled.'
+      flash[:notice] = 'OpenID verification cancelled.'
     else
       flash[:notice] = 'Unknown response from OpenID server.'
     end
