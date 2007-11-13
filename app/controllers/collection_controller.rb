@@ -7,22 +7,27 @@ class CollectionController < ApplicationController
     @coll_url = params[:url]
 
     @coll = Atom::Collection.new @coll_url, new_atom_http
-    @coll.update!
 
-    if @coll.title
-      coll = find_coll(@coll_url)
+    begin
+      @coll.update!
 
-      if coll
-        coll.title = @coll.title.html
-        coll.save
+      if @coll.title
+        coll = find_coll(@coll_url)
+
+        if coll
+          coll.title = @coll.title.html
+          coll.save
+        end
       end
-    end
 
-    @entry = Atom::Entry.new
+      @entry = Atom::Entry.new
 
-    respond_to do |wants|
-      wants.html # show.rhtml
-      wants.xml  { render :xml => @collection.to_xml }
+      respond_to do |wants|
+        wants.html # show.rhtml
+        wants.xml  { render :xml => @collection.to_xml }
+      end
+    rescue Atom::Unauthorized
+      obtain_authorization(:get, 'url' => @coll_url)
     end
   end
 
@@ -47,7 +52,7 @@ class CollectionController < ApplicationController
         raise "the server at #{@coll_url} responded to my POST with unexpected status code #{@res.code}"
       end
     rescue Atom::Unauthorized
-      render :action => "get_post_auth"
+      obtain_authorization(:post, 'url' => @coll_url, 'entry[original]' => @entry.to_s) 
     end
   end
 

@@ -11,11 +11,9 @@ class EntryController < ApplicationController
     @entry_url = params[:url]
     @coll_url = params[:coll_url]
 
-    # XXX check that 'url' was given
-   
     @entry = new_atom_http.get_atom_entry @entry_url
   rescue Atom::Unauthorized
-    render :action => 'get_auth'
+    obtain_authorization(:get, 'url' => @entry_url, 'coll_url' => @coll_url)
   end
 
   def update
@@ -34,7 +32,7 @@ class EntryController < ApplicationController
         raise "the server at #{@entry_url} responded to my PUT with unexpected status code #{@res.code}"
       end
     rescue Atom::Unauthorized
-      render :action => 'get_put_auth'
+      obtain_authorization(:put, 'url' => @entry_url, 'coll_url' => @coll_url, 'entry[original]' => @entry.to_s)
     end
   end
 
@@ -59,7 +57,7 @@ class EntryController < ApplicationController
             raise "the server at #{@delete_url} responded to my PUT with unexpected status code #{@res.code}"
           end
         else
-          render :action => 'delete_authorization'
+          obtain_authorization(:delete, 'url' => @delete_url, 'coll_url' => @coll_url)
         end
       end
       wants.json do
@@ -81,9 +79,10 @@ class EntryController < ApplicationController
   end
 
   def delete_authorization
-    @delete_url = params[:url]
-    @coll_url = params[:coll_url]
     @abs_url = params[:abs_url]
     @realm = params[:realm]
+
+    @continue_path = entry_path
+    obtain_authorization(:delete, 'url' => params[:url], 'coll_url' => params[:coll_url])
   end
 end

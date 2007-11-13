@@ -1,15 +1,20 @@
-<p>The server at <%=h @abs_url %> needs you to authenticate.</p>
+<% if @failed %>
+  <p>The server at <%=h @abs_url %> rejected those authentication details.</p>
+<% else %>
+  <p>The server at <%=h @abs_url %> needs you to authenticate.</p>
+<% end %>
 
 <p>realm: <%=h @realm %></p>
 
 <div class='auth chunk'>
-  <% form_tag entry_path, :method => :delete do %>
+  <% form_tag @continue_path, :method => @continue_method do %>
 
     <label>username: <input name="user"></label><br />
     <label>password: <input type="password" name="pass"></label><br />
 
-    <input type="hidden" name="url" value="<%=h @delete_url %>">
-    <input type="hidden" name="coll_url" value="<%=h @coll_url %>">
+    <% @continue_params.each do |k,v| %>
+      <input type="hidden" name="<%= h k %>" value="<%= h v %>">
+    <% end %>
 
     <% if @user -%>
     <label>store these details? <input class="checkbox" name="store_auth" value="yes" type="checkbox"></label>

@@ -28,6 +28,13 @@ class ApplicationController < ActionController::Base
     Collection.find(:first, :conditions => ['url = ? and user_id = ?', url, @user])
   end
 
+  def obtain_authorization method, continue_params = {}
+    @failed = params[:user]
+    @continue_method = method
+    @continue_params = continue_params
+    render :template => 'static/authorization'
+  end
+
   # entry: a complete Atom Entry
   # original: an Atom Entry that other parameters are filled into
   # title
