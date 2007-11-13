@@ -1,6 +1,4 @@
 class CollectionController < ApplicationController
-  before_filter :login_required, :only => [:new, :create]
-
   def show
     @collections = @user ? @user.collections : []
     
