@@ -2,7 +2,7 @@
   <% @user.collections.each do |coll| %>
     <li><%= link_to coll.title.to_s, collection_path(:url => coll.url) %></li>
   <% end %>
-  <li class="selected"><%= link_to "add collection", new_wall_path %></li>
+  <% if @user %><li><%= link_to "add collection", new_wall_path %></li><% end %>
 </ul>
 
 <h2>create new collection.</h2>
