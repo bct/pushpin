@@ -25,7 +25,7 @@ class EntryController < ApplicationController
     begin
       @res = new_atom_http.put_atom_entry(@entry, @entry_url)
 
-      if @res.code == '200'
+      if @res.is_a? Net::HTTPSuccess
         flash[:notice] = 'Entry was successfully updated.'
         redirect_to :controller => 'collection', :action => 'show', :url => @coll_url
       else
@@ -50,7 +50,7 @@ class EntryController < ApplicationController
     respond_to do |wants|
       wants.html do
         unless @unauthorized
-          if @res.code == '200'
+          if @res.is_a? Net::HTTPSuccess
             flash[:notice] = 'Entry was deleted.'
             redirect_to :controller => 'collection', :action => 'show', :url => @coll_url
           else
@@ -62,7 +62,7 @@ class EntryController < ApplicationController
       end
       wants.json do
         unless @unauthorized
-          if @res.code == '200'
+          if @res.is_a? Net::HTTPSuccess
             render :json => {:status => "success"}.to_json
           else
             raise 'oops'
