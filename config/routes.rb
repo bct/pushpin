@@ -1,7 +1,9 @@
 ActionController::Routing::Routes.draw do |map|
   # first created -> highest priority.
  
-  map.resource :entry, :wall, :user, :collection
+  map.resource :wall, :user
+  map.resource :service
+  map.resource :collection
   map.resource :entry, :collection => { :delete_authorization => :get }
 
   map.connect '', :controller => 'static', :action => 'index'

@@ -1,0 +1,11 @@
+<h2>select a collection to view.</h2>
+
+<% @service.workspaces.each do |w| %>
+  <h3><%= w.title %></h3>
+
+  <ul>
+    <% w.collections.each do |c| %>
+      <li><%= link_to c.title, collection_path(:url => c.uri.to_s) %></li>
+    <% end %>
+  </ul>
+<% end %>
