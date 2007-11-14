@@ -27,7 +27,8 @@ class WallController < ApplicationController
       if res.code == '200'
         case res["Content-Type"]
         when /application\/atom\+xml/
-          @collection = Collection.new(:url => @coll_url, :user_id => @user)
+          coll = Atom::Collection.parse res.body
+          @collection = Collection.new(:url => @coll_url, :user_id => @user, :title => coll.title.to_s)
 
           if @collection.save
             flash[:notice] = 'Collection was successfully created.'
@@ -41,7 +42,7 @@ class WallController < ApplicationController
           @collections = []
 
           @service.collections.each do |acoll|
-            coll = Collection.new(:url => acoll.uri.to_s, :user_id => @user)
+            coll = Collection.new(:url => acoll.uri.to_s, :user_id => @user, :title => acoll.title.to_s)
             unless coll.save
               raise coll.errors.inspect
             end
