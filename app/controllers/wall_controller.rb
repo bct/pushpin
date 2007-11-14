@@ -27,7 +27,7 @@ class WallController < ApplicationController
       if res.code == '200'
         case res["Content-Type"]
         when /application\/atom\+xml/
-          coll = Atom::Collection.parse res.body
+          coll = Atom::Collection.parse res.body, @coll_url
           @collection = Collection.new(:url => @coll_url, :user_id => @user, :title => coll.title.to_s)
 
           if @collection.save
@@ -37,7 +37,7 @@ class WallController < ApplicationController
             raise "couldn't save collection"
           end
         when /application\/atomsvc\+xml/
-          @service = Atom::Service.parse(res.body)
+          @service = Atom::Service.parse(res.body, @coll_url)
 
           @collections = []
 
