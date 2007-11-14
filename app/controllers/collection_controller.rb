@@ -1,7 +1,7 @@
 class CollectionController < ApplicationController
   def show
     @collections = @user ? @user.collections : []
-    
+
     @coll_url = params[:url]
 
     @coll = Atom::Collection.new @coll_url, new_atom_http

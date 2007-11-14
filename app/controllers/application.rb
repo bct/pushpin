@@ -113,7 +113,7 @@ class ApplicationController < ActionController::Base
       if @user
         auth = @user.auth_for(@abs_url, @realm)
       end
-  
+
       if params[:user] and params[:pass]
         if @user and params[:store_auth] == 'yes'
           auth ||= HTTPAuth.new

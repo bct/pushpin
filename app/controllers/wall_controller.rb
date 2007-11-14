@@ -9,7 +9,7 @@ class WallController < ApplicationController
       format.html # index.rhtml
     end
   end
-  
+
   def new
     @collection = Collection.new
   end
@@ -60,7 +60,7 @@ class WallController < ApplicationController
 
   def destroy
     @collection = find_coll(params[:url])
-    
+
     @collection.destroy
 
     respond_to do |format|

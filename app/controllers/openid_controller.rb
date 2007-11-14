@@ -34,13 +34,13 @@ class OpenidController < ApplicationController
       end
 
       redirect_to :controller => "static", :action => "index"
-    end    
+    end
   end
 
   # handle the openid server response
   def complete
     response = consumer.complete(params)
-    
+
     case response.status
     when OpenID::SUCCESS
       @user = User.find_or_initialize_by_openid_url(response.identity_url)
