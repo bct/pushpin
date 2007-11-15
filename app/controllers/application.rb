@@ -118,8 +118,7 @@ class ApplicationController < ActionController::Base
     dr = DelayedRequest.create(:method => request.method.to_s,
                                :controller => c,
                                :action => a,
-                               :params => ps,
-                               :user_id => @user)
+                               :params => ps)
 
     next_url = url_for :controller => :authsub, :action => :show, :id => dr.id
     scope = "http://partners-test.blogger.com/feeds/"
@@ -144,6 +143,10 @@ class PushpinHTTP < Atom::HTTP
     super $http_cache_dir
 
     @user = user
+
+    if params[:token]
+      @token = params[:token]
+    end
 
     self.when_auth do |abs_url, realm|
       @abs_url, @realm = abs_url, realm
@@ -174,12 +177,12 @@ class PushpinHTTP < Atom::HTTP
   end
 
   def authsub_authenticate(req, url, params = {})
-    if @user
-      token = AuthsubToken.find_by_user_id(@user.id)
+    if @user and not @token
+      @token = AuthsubToken.find_by_user_id(@user.id).token
     end
 
-    raise NeedAuthSub unless token
+    raise NeedAuthSub unless @token
 
-    req['Authorization'] = %{AuthSub token="#{token.token}"}
+    req['Authorization'] = %{AuthSub token="#{@token}"}
   end
 end

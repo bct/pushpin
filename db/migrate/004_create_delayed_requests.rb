@@ -1,7 +1,6 @@
 class CreateDelayedRequests < ActiveRecord::Migration
   def self.up
     create_table :delayed_requests do |t|
-      t.column :user_id, :integer, :null => false
       t.column :method, :string, :null => false
       t.column :controller, :string, :null => false
       t.column :action, :string, :null => false

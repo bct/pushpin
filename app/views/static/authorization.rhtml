@@ -16,6 +16,8 @@
 
     <% if @user -%>
     <label>store these details? <input class="checkbox" name="store_auth" value="yes" type="checkbox"></label>
+    <% else -%>
+    <p>If you logged in with your OpenID, you would be able to store these details.</p>
     <% end -%>
 
     <%= submit_tag 'authenticate' %>

@@ -16,9 +16,13 @@ function failDeleteEntry(xhr, tr) {
   var statustd = tr.children(":last")
   if (xhr.status == 401) {
     params = eval('(' + xhr.responseText + ')');
-    delete params.response;
-    var auth_url = "#{delete_authorization_entry_path}?" + jQuery.param(params);
-    statustd.html("<a href='" + auth_url + "'>enter login data</a>.");
+    if(params.status == "unauthorized") {
+      delete params.response;
+      var auth_url = "#{delete_authorization_entry_path}?" + jQuery.param(params);
+      statustd.html("<a href='" + auth_url + "'>enter login data</a>.");
+    } else if (params.status == "needtokenauth") {
+      statustd.html("<a href='" + params.redirect_to + "'>enter login data</a>.");
+    }
   } else {
     statustd.text("unknown error.");
   }
