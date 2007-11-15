@@ -3,6 +3,8 @@
 
 require_dependency "openid_login_system"
 
+class NeedAuthSub < RuntimeError; end
+
 class ApplicationController < ActionController::Base
   include OpenidLoginSystem
 
@@ -105,9 +107,17 @@ class ApplicationController < ActionController::Base
   end
 
   def new_atom_http
-    http = Atom::HTTP.new($http_cache_dir)
+    PushpinHTTP.new(@user, params)
+  end
+end
 
-    http.when_auth do |abs_url, realm|
+class PushpinHTTP < Atom::HTTP
+  def initialize(user, params)
+    super $http_cache_dir
+
+    @user = user
+
+    self.when_auth do |abs_url, realm|
       @abs_url, @realm = abs_url, realm
 
       if @user
@@ -133,7 +143,15 @@ class ApplicationController < ActionController::Base
         nil
       end
     end
+  end
 
-    http
+  def authsub_authenticate(req, url, params = {})
+    if @user
+      token = AuthsubToken.find_by_user_id(@user.id)
+    end
+
+    raise NeedAuthSub unless token
+
+    req['Authorization'] = %{AuthSub token="#{token.token}"}
   end
 end

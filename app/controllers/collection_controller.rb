@@ -26,6 +26,11 @@ class CollectionController < ApplicationController
       end
     rescue Atom::Unauthorized
       obtain_authorization(:get, 'url' => @coll_url)
+    rescue NeedAuthSub
+      dr = DelayedRequest.create(:method => 'get', :url => collection_path('url' => @coll_url), :params => {}.to_yaml, :user_id => @user)
+      next_url = url_for :controller => :authsub, :action => :show, :id => dr.id
+      scope = "http://partners-test.blogger.com/feeds/"
+      redirect_to "https://www.google.com/accounts/AuthSubRequest?next=#{CGI.escape next_url}&scope=#{CGI.escape scope}&session=1"
     end
   end
 

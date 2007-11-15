@@ -4,6 +4,7 @@ ActionController::Routing::Routes.draw do |map|
   map.resource :wall, :user
   map.resource :service
   map.resource :collection
+  map.resource :authsub
   map.resource :entry, :collection => { :delete_authorization => :get }
 
   map.connect '', :controller => 'static', :action => 'index'
