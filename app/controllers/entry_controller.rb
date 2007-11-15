@@ -55,7 +55,7 @@ class EntryController < ApplicationController
             flash[:notice] = 'Entry was deleted.'
             redirect_to :controller => 'collection', :action => 'show', :url => @coll_url
           else
-            raise "the server at #{@delete_url} responded to my PUT with unexpected status code #{@res.code}"
+            raise "the server at #{@delete_url} responded to my DELETE with unexpected status code #{@res.code}"
           end
         elsif @needs_auth == :authsub
           redirect_to next_url
@@ -64,11 +64,14 @@ class EntryController < ApplicationController
         end
       end
       wants.json do
-        if not @unauthorized
+        if not @needs_auth
           if @res.is_a? Net::HTTPSuccess
             render :json => {:status => "success"}.to_json
           else
-            raise 'oops'
+            render :json => {:status => "unknown",
+                             :code => @res.code,
+                             :body => @res.body   }.to_json,
+                   :status => 500
           end
         elsif @needs_auth == :authsub
           render :json => {:status => 'needtokenauth',
