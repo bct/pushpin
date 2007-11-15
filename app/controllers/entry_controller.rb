@@ -11,9 +11,9 @@ class EntryController < ApplicationController
     @entry_url = params[:url]
     @coll_url = params[:coll_url]
 
-    @entry = new_atom_http.get_atom_entry @entry_url
-  rescue Atom::Unauthorized
-    obtain_authorization(:get, 'url' => @entry_url, 'coll_url' => @coll_url)
+    maybe_needs_authorization('url' => @entry_url, 'coll_url' => @coll_url) do
+      @entry = new_atom_http.get_atom_entry @entry_url
+    end
   end
 
   def update
@@ -22,7 +22,7 @@ class EntryController < ApplicationController
 
     @entry = make_entry(params[:entry])
 
-    begin
+    maybe_needs_authorization('url' => @entry_url, 'coll_url' => @coll_url, 'entry' => { 'original' => @entry.to_s }) do
       @res = new_atom_http.put_atom_entry(@entry, @entry_url)
 
       if @res.is_a? Net::HTTPSuccess
@@ -31,8 +31,6 @@ class EntryController < ApplicationController
       else
         raise "the server at #{@entry_url} responded to my PUT with unexpected status code #{@res.code}"
       end
-    rescue Atom::Unauthorized
-      obtain_authorization(:put, 'url' => @entry_url, 'coll_url' => @coll_url, 'entry[original]' => @entry.to_s)
     end
   end
 
@@ -40,39 +38,49 @@ class EntryController < ApplicationController
     @delete_url = params[:url]
     @coll_url = params[:coll_url]
 
-    @unauthorized = false
+    @needs_auth = false
     begin
       @res = new_atom_http.delete(@delete_url)
     rescue Atom::Unauthorized
-      @unauthorized = true
+      @needs_auth = true
+    rescue NeedAuthSub
+      @needs_auth = :authsub
+      next_url = authsub_url('url' => @delete_url, 'coll_url' => @coll_url)
     end
 
     respond_to do |wants|
       wants.html do
-        unless @unauthorized
+        if not @needs_auth
           if @res.is_a? Net::HTTPSuccess
             flash[:notice] = 'Entry was deleted.'
             redirect_to :controller => 'collection', :action => 'show', :url => @coll_url
           else
             raise "the server at #{@delete_url} responded to my PUT with unexpected status code #{@res.code}"
           end
+        elsif @needs_auth == :authsub
+          redirect_to next_url
         else
           obtain_authorization(:delete, 'url' => @delete_url, 'coll_url' => @coll_url)
         end
       end
       wants.json do
-        unless @unauthorized
+        if not @unauthorized
           if @res.is_a? Net::HTTPSuccess
             render :json => {:status => "success"}.to_json
           else
             raise 'oops'
           end
+        elsif @needs_auth == :authsub
+          render :json => {:status => 'needtokenauth',
+                           :redirect_to => next_url    }.to_json,
+                 :status => 401
         else
-          render :json => {:status => "unauthorized",
+          render :json => {:status => 'unauthorized',
                            :url => @delete_url,
                            :coll_url => @coll_url,
                            :abs_url => @abs_url,
-                           :realm => @realm           }.to_json, :status => 401
+                           :realm => @realm           }.to_json,
+                 :status => 401
         end
       end
     end

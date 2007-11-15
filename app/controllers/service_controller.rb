@@ -1,9 +1,9 @@
 class ServiceController < ApplicationController
   def show
     @serv_url = params[:url]
-    @service = Atom::Service.new @serv_url, new_atom_http
 
-  rescue Atom::Unauthorized
-    obtain_authorization(:get, 'url' => @serv_url)
+    maybe_needs_authorization('url' => @serv_url) do
+      @service = Atom::Service.new @serv_url, new_atom_http
+    end
   end
 end

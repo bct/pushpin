@@ -1,3 +1,5 @@
+require "enumerator" # for each_slice
+
 # Methods added to this helper will be available to all templates in the application.
 module ApplicationHelper
   include Sanitize
@@ -39,5 +41,28 @@ module ApplicationHelper
     p.puts html
     p.close_write
     p.read
+  end
+
+  def hash_to_hidden_inputs(hash)
+    ret = ""
+    hash._inputize.each_slice(2) do |k,v|
+      ret += "<input name='#{h k}' value='#{h v}' type='hidden' />\n"
+    end
+    ret
+  end
+end
+
+class Hash
+  # {'a' => {'b' => 'c', 'd' => 'e'}} =>
+  #   [ "a[b]", "c", "a[d]", "e" ]
+  def _inputize(namespace = nil)
+    collect do |key, value|
+      key = namespace ? "#{namespace}[#{key}]" : key
+      if value.is_a? Hash
+        value._inputize(key)
+      else
+        [key, value]
+      end
+    end.flatten
   end
 end

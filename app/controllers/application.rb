@@ -109,6 +109,34 @@ class ApplicationController < ActionController::Base
   def new_atom_http
     PushpinHTTP.new(@user, params)
   end
+
+  # creates a URL for the user to be redirected to for AuthSub
+  def authsub_url(ps = {})
+    spp = request.symbolized_path_parameters
+    c = spp[:controller]
+    a = spp[:action]
+    dr = DelayedRequest.create(:method => request.method.to_s,
+                               :controller => c,
+                               :action => a,
+                               :params => ps,
+                               :user_id => @user)
+
+    next_url = url_for :controller => :authsub, :action => :show, :id => dr.id
+    scope = "http://partners-test.blogger.com/feeds/"
+
+    "https://www.google.com/accounts/AuthSubRequest?next=#{CGI.escape next_url}&scope=#{CGI.escape scope}&session=1"
+  end
+
+  # wraps a request that might need to go back to the user for authorization
+  def maybe_needs_authorization ps
+    begin
+      yield
+    rescue Atom::Unauthorized
+      obtain_authorization(request.method, ps)
+    rescue NeedAuthSub
+      redirect_to authsub_url(ps)
+    end
+  end
 end
 
 class PushpinHTTP < Atom::HTTP

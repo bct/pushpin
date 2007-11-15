@@ -21,7 +21,7 @@ class WallController < ApplicationController
 
     http = new_atom_http
 
-    begin
+    maybe_needs_authorization('collection' => { 'url' => @coll_url }) do
       res = http.get(@coll_url, "Accept" => "application/atom+xml;type=feed, application/atomsvc+xml, application/xhtml+xml;q=0.6, text/html;q=0.5")
 
       if res.code == '200'
@@ -59,8 +59,6 @@ class WallController < ApplicationController
       else
         raise "#{@coll_url} responded with unexpected status: #{res.code}"
       end
-    rescue Atom::Unauthorized
-      obtain_authorization(:post, 'collection[url]' => @coll_url)
     end
   end
 

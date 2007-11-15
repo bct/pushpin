@@ -6,7 +6,7 @@ class CollectionController < ApplicationController
 
     @coll = Atom::Collection.new @coll_url, new_atom_http
 
-    begin
+    maybe_needs_authorization('url' => @coll_url) do
       @coll.update!
 
       if @coll.title
@@ -24,13 +24,6 @@ class CollectionController < ApplicationController
         wants.html # show.rhtml
         wants.xml  { render :xml => @collection.to_xml }
       end
-    rescue Atom::Unauthorized
-      obtain_authorization(:get, 'url' => @coll_url)
-    rescue NeedAuthSub
-      dr = DelayedRequest.create(:method => 'get', :url => collection_path('url' => @coll_url), :params => {}.to_yaml, :user_id => @user)
-      next_url = url_for :controller => :authsub, :action => :show, :id => dr.id
-      scope = "http://partners-test.blogger.com/feeds/"
-      redirect_to "https://www.google.com/accounts/AuthSubRequest?next=#{CGI.escape next_url}&scope=#{CGI.escape scope}&session=1"
     end
   end
 
@@ -45,17 +38,15 @@ class CollectionController < ApplicationController
 
     @coll = Atom::Collection.new params[:url], new_atom_http
 
-    begin
+    maybe_needs_authorization('url' => @coll_url, 'entry' => { 'original' => @entry.to_s}) do
       @res = @coll.post! @entry
 
       if @res.code == '201'
         flash[:notice] = %{Entry was successfully created. <a href="#{@res["Location"]}">link</a>.}
-        redirect_to :action => 'show', :url => params[:url]
+        redirect_to :controller => 'collection', :action => 'show', :url => params[:url]
       else
         raise "the server at #{@coll_url} responded to my POST with unexpected status code #{@res.code}"
       end
-    rescue Atom::Unauthorized
-      obtain_authorization(:post, 'url' => @coll_url, 'entry[original]' => @entry.to_s) 
     end
   end
 

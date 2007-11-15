@@ -12,9 +12,16 @@ class AuthsubController < ApplicationController
     AuthsubToken.create(:user_id => @user.id, :token => token)
 
     dr = DelayedRequest.find(params[:id])
+    dr.destroy
+
+    c = dr[:controller]
+    a = dr[:action]
+    ps = YAML.load dr[:params]
 
     if dr[:method] == 'get'
-      redirect_to dr.url
+      redirect_to({:controller => c, :action => a}.merge(ps))
+    else
+      render_component :controller => c, :action => a, :params => ps
     end
   end
 end
