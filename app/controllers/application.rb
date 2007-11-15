@@ -37,6 +37,12 @@ class ApplicationController < ActionController::Base
     render :template => 'static/authorization'
   end
 
+  # normalize a user-entered URL
+  def n_url url
+    url.strip!
+    "http://" + url unless url.match(/^http/)
+  end
+
   # entry: a complete Atom Entry
   # original: an Atom Entry that other parameters are filled into
   # title
@@ -78,8 +84,7 @@ class ApplicationController < ActionController::Base
       a_auth.email = author[:email] if author[:email]
 
       if uri = author[:uri]
-        uri = 'http://' + uri unless uri.match /^http/
-        a_auth.uri = uri
+        a_auth.uri = n_url uri
       end
     end
 

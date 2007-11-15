@@ -8,8 +8,8 @@ class EntryController < ApplicationController
 
   # edit an existing entry
   def edit
-    @entry_url = params[:url]
-    @coll_url = params[:coll_url]
+    @entry_url = n_url params[:url]
+    @coll_url = n_url params[:coll_url]
 
     maybe_needs_authorization('url' => @entry_url, 'coll_url' => @coll_url) do
       @entry = new_atom_http.get_atom_entry @entry_url
@@ -17,8 +17,8 @@ class EntryController < ApplicationController
   end
 
   def update
-    @entry_url = params[:url]
-    @coll_url = params[:coll_url]
+    @entry_url = n_url params[:url]
+    @coll_url = n_url params[:coll_url]
 
     @entry = make_entry(params[:entry])
 
@@ -35,8 +35,8 @@ class EntryController < ApplicationController
   end
 
   def destroy
-    @delete_url = params[:url]
-    @coll_url = params[:coll_url]
+    @delete_url = n_url params[:url]
+    @coll_url = n_url params[:coll_url]
 
     @needs_auth = false
     begin

@@ -15,9 +15,7 @@ class WallController < ApplicationController
   end
 
   def create
-    @coll_url = params[:collection][:url]
-
-    @coll_url = "http://" + @coll_url unless @coll_url.match(/^http/)
+    @coll_url = n_url params[:collection][:url]
 
     http = new_atom_http
 
@@ -63,7 +61,7 @@ class WallController < ApplicationController
   end
 
   def destroy
-    @collection = find_coll(params[:url])
+    @collection = find_coll(n_url params[:url])
 
     @collection.destroy
 

@@ -2,7 +2,7 @@ class CollectionController < ApplicationController
   def show
     @collections = @user ? @user.collections : []
 
-    @coll_url = params[:url]
+    @coll_url = n_url params[:url]
 
     @coll = Atom::Collection.new @coll_url, new_atom_http
 
@@ -28,22 +28,22 @@ class CollectionController < ApplicationController
   end
 
   def edit
-    @collection = find_coll(params[:url])
+    @collection = find_coll(n_url params[:url])
   end
 
   def create
-    @coll_url = params[:url]
+    @coll_url = n_url params[:url]
 
     @entry = make_entry(params[:entry])
 
-    @coll = Atom::Collection.new params[:url], new_atom_http
+    @coll = Atom::Collection.new @coll_url, new_atom_http
 
     maybe_needs_authorization('url' => @coll_url, 'entry' => { 'original' => @entry.to_s}) do
       @res = @coll.post! @entry
 
       if @res.code == '201'
         flash[:notice] = %{Entry was successfully created. <a href="#{@res["Location"]}">link</a>.}
-        redirect_to :controller => 'collection', :action => 'show', :url => params[:url]
+        redirect_to :controller => 'collection', :action => 'show', :url => @coll_url
       else
         raise "the server at #{@coll_url} responded to my POST with unexpected status code #{@res.code}"
       end
@@ -51,7 +51,7 @@ class CollectionController < ApplicationController
   end
 
   def update
-    @collection = find_coll(params[:collection][:url])
+    @collection = find_coll(n_url params[:collection][:url])
 
     respond_to do |format|
       if @collection.update_attributes(params[:collection])
