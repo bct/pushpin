@@ -40,7 +40,9 @@ class ApplicationController < ActionController::Base
   # normalize a user-entered URL
   def n_url url
     url.strip!
-    "http://" + url unless url.match(/^http/)
+
+    url = "http://" + url unless url.match(/^http/)
+    url
   end
 
   # entry: a complete Atom Entry
