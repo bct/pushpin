@@ -54,7 +54,7 @@ class OpenidController < ApplicationController
       else
         session[:user_id] = @user.id
 
-        redirect_back_or_default wall_path
+        redirect_to wall_path
       end
 
       return
