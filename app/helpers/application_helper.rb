@@ -17,7 +17,7 @@ module ApplicationHelper
   def _summary_editor(content)
     return %{<div class="content><label for="entry[summary]">Summary:</label><textarea name="summary" id="summary" cols="56" rows="16">#{CGI.escapeHTML(content)}</textarea></div>}
   end
- 
+
   # a <textarea> for atom:content
   def _content_editor(content)
     return %{<div class="content">
@@ -26,11 +26,11 @@ module ApplicationHelper
 </div>}
   end
 
-  # converts existing content to markdown 
+  # converts existing content to markdown
   #   XXX maybe we should depend on the server for this?
   def _markdown_content(entry)
     markdown = entry.content ? html_to_markdown(entry.content.html) : ''
-    
+
     return _content_editor(markdown) + %{<p class="info">you can use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a> syntax here.</p>
 <input type="hidden" name="entry[content_type]" value="markdown" />}
   end
@@ -46,7 +46,7 @@ module ApplicationHelper
   def hash_to_hidden_inputs(hash)
     ret = ""
     hash._inputize.each_slice(2) do |k,v|
-      ret += "<input name='#{h k}' value='#{h v}' type='hidden' />\n"
+      ret += %{<input name="#{h k}" value="#{h v}" type='hidden' />\n}
     end
     ret
   end
