@@ -4,7 +4,7 @@
   <h3>post an entry.</h3>
 
   <% form_for(:entry, :url => {:controller => :entry, :action => 'create'}) do |f| %>
-    <%= render :partial => "entry/editor", :locals => { :f => f } %>
+    <%= render :partial => "editor/basic_markdown", :locals => { :f => f } %>
 
     <input type="submit" value="save as draft" name='entry[draft]'/>
   <% end %>

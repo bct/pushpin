@@ -11,6 +11,8 @@ class EntryController < ApplicationController
     @entry_url = n_url params[:url]
     @coll_url = n_url params[:coll_url]
 
+    @coll = find_coll(@coll_url)
+
     maybe_needs_authorization('url' => @entry_url, 'coll_url' => @coll_url) do
       @entry = new_atom_http.get_atom_entry @entry_url
     end

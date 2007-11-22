@@ -9,10 +9,6 @@ module ApplicationHelper
     concat(render(:partial => partial_name, :locals => options), block.binding)
   end
 
-  def _editor(entry, action = collections_path, options = {}, &block)
-    block_to_partial 'entry/editor', options.merge(:entry => entry, :action => action), &block
-  end
-
   # a <textarea> for atom:summary
   def _summary_editor(content)
     return %{<div class="content><label for="entry[summary]">Summary:</label><textarea name="summary" id="summary" cols="56" rows="16">#{CGI.escapeHTML(content)}</textarea></div>}

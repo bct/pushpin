@@ -61,7 +61,7 @@ class WallController < ApplicationController
   end
 
   def destroy
-    @collection = find_coll(n_url params[:url])
+    @collection = Collection.find_by_url_and_user_id(n_url(params[:url]), @user)
 
     @collection.destroy
 

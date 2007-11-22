@@ -1,6 +1,6 @@
 <ul id="tabnav">
   <% @collections.each do |coll| %>
-    <li<%= ' class="selected"' if @coll.uri.to_s == coll.url %>><%= link_to coll.title.to_s, :url => coll.url %></li>
+    <li<%= ' class="selected"' if @coll.url.to_s == coll.url %>><%= link_to coll.title.to_s, :url => coll.url %></li>
   <% end %>
   <% if @user %><li><%= link_to "add collection", new_wall_path %></li><% end %>
 </ul>
@@ -55,26 +55,7 @@ END
 <h2>collection "<%=@coll.title.to_s%>"</h2>
 
 <% unless @coll.empty? %>
-  <table class='entries'>
-  <tr><th>title</th><th>content</th><th colspan="2">actions</th></tr>
-
-  <% @coll.each_with_index do |entry,i| %>
-
-  <tr<%= ' class="odd"'unless (i % 2).zero? %>>
-    <td><%= entry.title.to_s.empty? ? "(no title)" : h(entry.title.to_s) %></td>
-    <td><%= entry.content.to_s.empty? ? "(no content)" : sanitize_html(entry.content.html) %>
-    <td><%= link_to 'edit', edit_entry_path(:url => entry.edit_url,
-                                            :coll_url => @coll.uri) %></td>
-    <td><%= button_to "delete", { :controller => 'entry',
-                                  :action => "destroy",
-                                  :url => entry.edit_url,
-                                  :coll_url => @coll.uri },
-                                  :class => 'delete',
-                                  :method => :delete %></td>
-  </tr>
-
-  <% end %>
-  </table>
+  <%= render :partial => "viewer/#{@coll.kind}", :locals => { :coll => @coll } %>
 <% else %>
   <p>this collection is empty.</p>
 <% end %>
@@ -82,8 +63,8 @@ END
 <h2>editor</h2>
 
 <% form_for(:entry, :action => 'create' ) do |f| %>
-  <%= render :partial => "entry/editor", :locals => { :f => f } %>
+  <%= render :partial => "editor/#{@coll.editor}", :locals => { :f => f } %>
 
-  <input type="submit" value="save as draft" name='entry[draft]'/> 
+  <input type="submit" value="save as draft" name='entry[draft]'/>
   <input type="hidden" name="url" value="<%=@coll_url%>" />
 <% end %>

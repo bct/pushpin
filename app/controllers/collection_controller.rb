@@ -4,19 +4,10 @@ class CollectionController < ApplicationController
 
     @coll_url = n_url params[:url]
 
-    @coll = Atom::Collection.new @coll_url, new_atom_http
+    @coll = find_coll(@coll_url)
 
     maybe_needs_authorization('url' => @coll_url) do
       @coll.update!
-
-      if @coll.title
-        coll = find_coll(@coll_url)
-
-        if coll
-          coll.title = @coll.title.html
-          coll.save
-        end
-      end
 
       @entry = Atom::Entry.new
 
@@ -28,7 +19,7 @@ class CollectionController < ApplicationController
   end
 
   def edit
-    @collection = find_coll(n_url params[:url])
+    @collection = Collection.find_by_url_and_user_id(n_url(params[:url]), @user)
   end
 
   def create
@@ -36,7 +27,7 @@ class CollectionController < ApplicationController
 
     @entry = make_entry(params[:entry])
 
-    @coll = Atom::Collection.new @coll_url, new_atom_http
+    @coll = find_coll(@coll_url)
 
     maybe_needs_authorization('url' => @coll_url, 'entry' => { 'original' => @entry.to_s}) do
       @res = @coll.post! @entry
@@ -51,7 +42,7 @@ class CollectionController < ApplicationController
   end
 
   def update
-    @collection = find_coll(n_url params[:collection][:url])
+    @collection = Collection.find_by_url_and_user_id(n_url(params[:collection][:url]), @user)
 
     respond_to do |format|
       if @collection.update_attributes(params[:collection])

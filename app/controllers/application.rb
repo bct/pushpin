@@ -26,8 +26,11 @@ class ApplicationController < ActionController::Base
     true
   end
 
+  # finds a collection and prepares it for HTTP stuff
   def find_coll(url)
-    Collection.find(:first, :conditions => ['url = ? and user_id = ?', url, @user])
+    c = Collection.find_or_initialize_by_url_and_user_id(url, @user)
+    c.http = new_atom_http
+    c
   end
 
   def obtain_authorization method, continue_params = {}
