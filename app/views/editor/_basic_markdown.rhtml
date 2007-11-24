@@ -3,7 +3,7 @@
 
   <% if @entry.summary %>
     <%= _summary_editor(html_to_markdown(@entry.summary.html)) %>
-    <input type="hidden" name="summary_type" value="markdown" />
+    <input type="hidden" name="entry[summary_type]" value="markdown" />
   <% end %>
 
   <% if @entry.content and @entry.content["src"] %>

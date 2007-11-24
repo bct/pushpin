@@ -11,7 +11,7 @@ module ApplicationHelper
 
   # a <textarea> for atom:summary
   def _summary_editor(content)
-    return %{<div class="content><label for="entry[summary]">Summary:</label><textarea name="summary" id="summary" cols="56" rows="16">#{CGI.escapeHTML(content)}</textarea></div>}
+    return %{<div class="content"><label for="summary">Summary:</label><textarea name="entry[summary]" id="summary" cols="56" rows="16">#{CGI.escapeHTML(content)}</textarea></div>}
   end
 
   # a <textarea> for atom:content

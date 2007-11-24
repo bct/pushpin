@@ -5,7 +5,7 @@
 
 <tr<%= ' class="odd"'unless (i % 2).zero? %>>
   <td><%= entry.title.to_s.empty? ? "(no title)" : h(entry.title.to_s) %></td>
-  <td><%= entry.content.to_s.empty? ? "(no content)" : sanitize_html(entry.content.html) %>
+  <td><%= entry.content.to_s.empty? ? "(no content)" : sanitize_html(entry.content.html) %></td>
   <td><%= link_to 'edit', edit_entry_path(:url => entry.edit_url,
                                           :coll_url => coll.url) %></td>
   <td><%= button_to "delete", { :controller => 'entry',

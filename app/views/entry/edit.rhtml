@@ -1,4 +1,4 @@
-<h2>editing "<%=@entry.title%>", PushPin.</h2>
+<h2>editing "<%=sanitize_html @entry.title.html%>", PushPin.</h2>
 
 <% form_for(:entry, :url => entry_path, :html => { :method => :put } ) do |f| %>
   <%= render :partial => "editor/#{@coll.editor}", :locals => { :f => f } %>
