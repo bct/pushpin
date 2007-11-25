@@ -63,6 +63,9 @@ class ApplicationController < ActionController::Base
   #   name
   #   uri
   #   email
+  # links:
+  #   rel
+  #   href
   def make_entry(params)
     if params[:complete]
       return Atom::Entry.parse(params[:complete])
@@ -90,6 +93,14 @@ class ApplicationController < ActionController::Base
 
       if uri = author[:uri]
         a_auth.uri = n_url uri
+      end
+    end
+
+    if links = params[:links]
+      links.each do |l|
+        a_link = entry.links.new
+        a_link['href'] = n_url l[:href]
+        a_link['rel'] = l[:rel] if l[:rel]
       end
     end
 

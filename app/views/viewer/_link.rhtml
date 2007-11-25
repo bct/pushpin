@@ -1,0 +1,23 @@
+<table class='entries'>
+  <tr><th>title</th><th>tags</th><th>summary</th><th>link</th><th colspan="2">actions</th></tr>
+
+<% coll.each_with_index do |entry,i| %>
+
+<tr<%= ' class="odd"'unless (i % 2).zero? %>>
+  <td><%= entry.title.to_s.empty? ? '(no title)' : sanitize_html(entry.title.html) %></td>
+  <td><%= h entry.categories.map { |c| c['term'] }.join(' ') %></td>
+  <td><%= entry.summary.to_s.empty? ? "(no summary)" : sanitize_html(entry.summary.html) %></td>
+  <td><%= link = entry.links.find { |l| l['rel'] == 'related' }
+          link ? link_to('link', link['href']) : '(no link)' %></td>
+  <td><%= link_to 'edit', edit_entry_path(:url => entry.edit_url,
+                                          :coll_url => coll.url) %></td>
+  <td><%= button_to "delete", { :controller => 'entry',
+                                :action => "destroy",
+                                :url => entry.edit_url,
+                                :coll_url => coll.url },
+                                :class => 'delete',
+                                :method => :delete %></td>
+</tr>
+
+<% end %>
+</table>
