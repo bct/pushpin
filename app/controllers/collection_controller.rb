@@ -18,6 +18,13 @@ class CollectionController < ApplicationController
     end
   end
 
+  def new
+    @coll_url = n_url params[:url]
+    @coll = find_coll(@coll_url)
+
+    @entry = Atom::Entry.new
+  end
+
   def edit
     @collection = Collection.find_by_url_and_user_id(n_url(params[:url]), @user)
   end

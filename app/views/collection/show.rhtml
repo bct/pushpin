@@ -72,3 +72,9 @@ END
 
   <input type="hidden" name="url" value="<%=@coll_url%>" />
 <% end %>
+
+<h2>tools</h2>
+
+<ul>
+  <li><%= link_to 'new entry', :action => 'new', :url => @coll_url %></li>
+</ul>
