@@ -4,9 +4,7 @@
   <br />
 
   <% if @entry.summary %>
-    <%= _summary_editor(html_to_markdown(@entry.summary.html)) %>
-
-    <input type="hidden" name="entry[summary_type]" value="markdown" />
+    <%= _text_editor('summary', @entry.summary ? @entry.summary.html : '') %>
   <% end %>
 
   <% if @entry.content and @entry.content["src"] %>
@@ -18,7 +16,7 @@
       <% end %>
     </p>
   <% else %>
-    <%= _markdown_content(@entry) %>
+    <%= _text_editor('content', @entry.content ? entry.content.html : '') %>
   <% end %>
 
   <input type="hidden" name="entry[original]" value="<%=CGI.escapeHTML(@entry.to_s)%>" />

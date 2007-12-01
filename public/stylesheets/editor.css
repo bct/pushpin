@@ -32,6 +32,7 @@ a:visited {
 input#logout {
 }
 
+/* word-wrapped monospace raw HTTP bodies for unexpected response type */
 pre.error {
   font-family: monospace;
   background: #ecb;
@@ -71,8 +72,11 @@ h2 {
   margin: 2em 0 0.4em 1em;
 }
 
+/* tables for displaying lists of entries and collections */
+
 table.entries {
   margin-bottom: 1em;
+  width: 100%;
 }
 
 th {
@@ -85,6 +89,12 @@ tr.odd {
 
 td {
   padding: 0 0.5em;
+}
+
+td.title {
+  font-size: 1.1em;
+  text-align: center;
+  padding: 0.5em;
 }
 
 /* editor stuff */

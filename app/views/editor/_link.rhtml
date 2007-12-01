@@ -11,8 +11,7 @@ link ? h(link['href']) : ''%>" /></label>
 
 <br />
 
-<%= html = @entry.summary ? html_to_markdown(@entry.summary.html) : ''
-    _summary_editor(html) %>
+<%= _text_editor('summary', @entry.summary ? @entry.summary.html : '') %>
 
 <input type="hidden" name="entry[summary_type]" value="markdown" />
 

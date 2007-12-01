@@ -4,7 +4,7 @@
 <% coll.each_with_index do |entry,i| %>
 
 <tr<%= ' class="odd"'unless (i % 2).zero? %>>
-  <td><%= author = entry.authors.first
+  <td class="title"><%= author = entry.authors.first
           author ? h(author.name) : '(no author)' %></td>
   <td><%= entry.content.to_s.empty? ? '(no content)' : sanitize_html(entry.content.html) %></td>
   <td><%= link_to 'edit', edit_entry_path(:url => entry.edit_url,

@@ -9,26 +9,14 @@ module ApplicationHelper
     concat(render(:partial => partial_name, :locals => options), block.binding)
   end
 
-  # a <textarea> for atom:summary
-  def _summary_editor(content)
-    return %{<div class="content"><label for="summary">Summary:</label><textarea name="entry[summary]" id="summary" cols="56" rows="16">#{CGI.escapeHTML(content)}</textarea></div>}
-  end
+  def _text_editor(name, html)
+    editor =  if @user
+                @user.editor
+              else
+                'basic_markdown'
+              end
 
-  # a <textarea> for atom:content
-  def _content_editor(content)
-    return %{<div class="content">
-  <label for="content">Content:</label>
-  <textarea name="entry[content]" id="content" cols="56" rows="16">#{CGI.escapeHTML(content)}</textarea>
-</div>}
-  end
-
-  # converts existing content to markdown
-  #   XXX maybe we should depend on the server for this?
-  def _markdown_content(entry)
-    markdown = entry.content ? html_to_markdown(entry.content.html) : ''
-
-    return _content_editor(markdown) + %{<p class="info">you can use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a> syntax here.</p>
-<input type="hidden" name="entry[content_type]" value="markdown" />}
+    render :partial => "text/#{editor}", :locals => { :name => name, :html => html }
   end
 
   # input to this MUST be UTF-8

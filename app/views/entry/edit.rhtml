@@ -1,7 +1,7 @@
 <h2>editing "<%=sanitize_html @entry.title.html%>", PushPin.</h2>
 
 <% form_for(:entry, :url => entry_path, :html => { :method => :put } ) do |f| %>
-  <%= render :partial => "editor/#{@coll.editor}", :locals => { :f => f } %>
+  <%= render :partial => "editor/#{@coll.kind}", :locals => { :f => f } %>
 
   <input type="hidden" name="url" value="<%=@entry_url%>" />
   <input type="hidden" name="coll_url" value="<%=@coll_url%>" />

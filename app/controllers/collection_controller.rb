@@ -1,3 +1,4 @@
+# a remote Atom Publishing Protocol Collection
 class CollectionController < ApplicationController
   def show
     @collections = @user ? @user.collections : []
@@ -18,6 +19,7 @@ class CollectionController < ApplicationController
     end
   end
 
+  # form for POSTing a new Entry
   def new
     @coll_url = n_url params[:url]
     @coll = find_coll(@coll_url)
@@ -25,10 +27,12 @@ class CollectionController < ApplicationController
     @entry = Atom::Entry.new
   end
 
+  # form for editing an existing entry
   def edit
     @collection = Collection.find_by_url_and_user_id(n_url(params[:url]), @user)
   end
 
+  # POSTing a new entry
   def create
     @coll_url = n_url params[:url]
 

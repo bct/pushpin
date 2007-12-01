@@ -4,7 +4,7 @@
 <% coll.each_with_index do |entry,i| %>
 
 <tr<%= ' class="odd"'unless (i % 2).zero? %>>
-  <td><%= entry.title.to_s.empty? ? '(no title)' : sanitize_html(entry.title.html) %></td>
+  <td class="title"><%= entry.title.to_s.empty? ? '(no title)' : sanitize_html(entry.title.html) %></td>
   <td><%= h entry.categories.map { |c| c['term'] }.join(' ') %></td>
   <td><%= entry.summary.to_s.empty? ? "(no summary)" : sanitize_html(entry.summary.html) %></td>
   <td><%= link = entry.links.find { |l| l['rel'] == 'related' }

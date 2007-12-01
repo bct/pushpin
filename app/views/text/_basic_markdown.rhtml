@@ -1,0 +1,11 @@
+<div class="content">
+  <label for="<%= name %>"><%= name.capitalize %>:</label>
+
+  <textarea name="entry[<%= name %>]" id="<%= name %>" cols="56" rows="16"><%=
+    CGI.escapeHTML(html_to_markdown(html))
+  %></textarea>
+
+  <p class="info">you can use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a> syntax here.</p>
+
+  <input type="hidden" name="entry[<%= name %>_type]" value="markdown" />
+</div>
