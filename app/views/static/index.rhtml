@@ -6,7 +6,10 @@
   <% form_for(:entry, :url => {:controller => :entry, :action => 'create'}) do |f| %>
     <%= render :partial => "editor/basic_markdown", :locals => { :f => f } %>
 
-    <input type="submit" value="save as draft" name='entry[draft]'/>
+    <div class="submission">
+      <input class="primary" type="submit" value="post it!" />
+      <input type="submit" value="save as draft" name='entry[draft]'/>
+    </div>
   <% end %>
 </div>
 

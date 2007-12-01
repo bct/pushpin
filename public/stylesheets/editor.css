@@ -143,13 +143,22 @@ label.tags input, label.rating select {
   margin: 0;
 }
 
-.submit {
-  display: block;
+.submission {
+  text-align: center;
+}
+
+.submission input {
   margin: 0.3em auto;
   height: 2em;
 
   border: 1px solid #999;
   background: #ddd;
+}
+
+.submission .primary {
+  padding-left: 1em;
+  padding-right: 1em;
+  background: #ecc;
 }
 
 /* navigation stuff */
