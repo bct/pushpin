@@ -40,4 +40,8 @@ class Collection < ActiveRecord::Base
   def empty?
     @atom.empty?
   end
+
+  def self.kinds
+    ['basic entry', 'link', 'comment']
+  end
 end

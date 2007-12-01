@@ -3,12 +3,10 @@
 <%= error_messages_for :collection %>
 
 <% form_for(:collection, :url => { :action => 'update' }, :html => { :method => :put }) do |f| %>
-  <p>
-    <b>Title</b><br />
-    <%= f.text_field :title %>
-  </p>
+  <label>title: <%= f.text_field :title %></label><br />
+  <label>kind: <%= f.select :kind, Collection.kinds.map { |x| [x, x.gsub(/ /, '_')] } %></label><br />
 
-  <p>
-    <%= submit_tag "Update" %>
-  </p>
+  <%= f.hidden_field :url %>
+
+  <div class="submission"><%= submit_tag "update" %></div>
 <% end %>

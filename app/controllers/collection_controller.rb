@@ -57,10 +57,10 @@ class CollectionController < ApplicationController
 
     respond_to do |format|
       if @collection.update_attributes(params[:collection])
-        flash[:notice] = 'Collection was successfully updated.'
-        format.html { redirect_to :action => 'show', :url => @collection.url }
+        flash[:notice] = 'collection was successfully updated.'
+        format.html { redirect_to user_path }
       else
-        format.html { render :action => "edit" }
+        raise "couldn't save the updated collection's details"
       end
     end
   end

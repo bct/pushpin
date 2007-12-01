@@ -7,7 +7,7 @@
     <%= render :partial => "editor/basic_entry", :locals => { :f => f } %>
 
     <div class="submission">
-      <input class="primary" type="submit" value="post it!" />
+      <%= submit_tag 'post it!', :class => 'primary' %>
       <input type="submit" value="save as draft" name='entry[draft]'/>
     </div>
   <% end %>
@@ -17,7 +17,7 @@
   <h2>edit a collection.</h2>
   <% form_tag service_path, :method => :get do %>
     <label>service document URI: <input name="url" /></label><br />
-    <input type="submit" value="view collections" />
+    <div class="submission"><%= submit_tag 'view collections.' %></div>
   <% end %>
   <p>
   You can try it out in the <a href="http://necronomicorp.com/pushpin/sandbox">sandbox</a>.

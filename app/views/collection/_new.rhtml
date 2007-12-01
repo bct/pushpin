@@ -6,7 +6,7 @@
   <input type="hidden" name="url" value="<%=@coll_url%>" />
 
   <div class="submission">
-    <input class="primary" type="submit" value="create it!" />
+    <%= submit_tag 'post it!', :class => 'primary' %>
     <input type="submit" value="save as draft" name='entry[draft]'/>
   </div>
 <% end %>
