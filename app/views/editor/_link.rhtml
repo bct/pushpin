@@ -1,13 +1,19 @@
-  <label class='title'>Title: <%= f.text_field :title, :value => (@entry.title ? h(@entry.title.html) : '') %></label>
-  <label class='tags'>Tags: <%= f.text_field :tags, :value => @entry.categories.map { |c| c['term'] }.join(' ') %></label>
+<input type="hidden" name="entry[links][][rel]" value="related" />
 
-  <input type="hidden" name="entry[links][][rel]" value="related" />
-  <label>URL: <input name="entry[links][][href]" value="<%=
-    link = @entry.links.find { |l| l['rel'] == 'related' }
-    link ? h(link['href']) : ''%>" /></label>
+<label class="url">URL: <input name="entry[links][][href]" value="<%=
+  link = @entry.links.find { |l| l['rel'] == 'related' }
+link ? h(link['href']) : ''%>" /></label>
 
-  <%= html = @entry.summary ? html_to_markdown(@entry.summary.html) : ''
-      _summary_editor(html) %>
-  <input type="hidden" name="entry[summary_type]" value="markdown" />
+<br />
 
-  <input type="hidden" name="entry[original]" value="<%=CGI.escapeHTML(@entry.to_s)%>" />
+<label class='title'>Title: <%= f.text_field :title, :value => (@entry.title ? h(@entry.title.html) : '') %></label>
+<label class='tags'>Tags: <%= f.text_field :tags, :value => @entry.categories.map { |c| c['term'] }.join(' ') %></label>
+
+<br />
+
+<%= html = @entry.summary ? html_to_markdown(@entry.summary.html) : ''
+    _summary_editor(html) %>
+
+<input type="hidden" name="entry[summary_type]" value="markdown" />
+
+<input type="hidden" name="entry[original]" value="<%=CGI.escapeHTML(@entry.to_s)%>" />

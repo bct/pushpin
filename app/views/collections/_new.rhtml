@@ -1,0 +1,9 @@
+<h2 id="add-coll">add a new collection:</h2>
+
+<%= error_messages_for :collection %>
+
+<% form_for(:collection, :url => user_collections_path) do |f| %>
+  <label>url: <%= f.text_field :url %></label><br />
+
+  <div class="submission"><%= submit_tag "add." %></div>
+<% end %>

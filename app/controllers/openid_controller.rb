@@ -46,16 +46,13 @@ class OpenidController < ApplicationController
       @user = User.find_or_initialize_by_openid_url(response.identity_url)
 
       if @user.new_record?
-        # redirect them to their settings page on first login
-        @user.save
-        session[:user_id] = @user.id
-
-        redirect_to :controller => "user", :action => "show"
-      else
-        session[:user_id] = @user.id
-
-        redirect_to wall_path
+        @user[:uri] = response.identity_url
+        @user.save!
       end
+
+      session[:user_id] = @user.id
+
+      redirect_to :controller => "user", :action => "show"
 
       return
     when OpenID::FAILURE
@@ -70,16 +67,16 @@ class OpenidController < ApplicationController
     else
       flash[:notice] = 'Unknown response from OpenID server.'
     end
-  
+
     redirect_to :controller => "static", :action => "index"
   end
-  
+
   def logout
     session[:user_id] = nil
 
     redirect_to :controller => 'static', :action => 'index'
   end
-    
+
   private
 
   # Get the OpenID::Consumer object.

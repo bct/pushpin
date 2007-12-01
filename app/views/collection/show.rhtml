@@ -2,7 +2,7 @@
   <% @collections.each do |coll| %>
     <li<%= ' class="selected"' if @coll.url.to_s == coll.url %>><%= link_to coll.title.to_s, :url => coll.url %></li>
   <% end %>
-  <% if @user %><li><%= link_to "add collection", new_wall_path %></li><% end %>
+  <% if @user %><li><%= link_to "add collection", new_user_collection_path %></li><% end %>
 </ul>
 
 <%= javascript_include_tag "jquery" %>
@@ -52,28 +52,21 @@ $(document).ready(function(){
 END
 %>
 
-<h2>collection "<%=@coll.title.to_s%>"</h2>
+<div class="chunk">
+  <h2>contents of "<%=@coll.title.to_s%>".</h2>
 
-<% unless @coll.empty? %>
-  <%= render :partial => "viewer/#{@coll.kind}", :locals => { :coll => @coll } %>
-<% else %>
-  <p>this collection is empty.</p>
-<% end %>
+  <% unless @coll.empty? %>
+    <%= render :partial => "viewer/#{@coll.kind}", :locals => { :coll => @coll } %>
+  <% else %>
+    <p>this collection is empty.</p>
+  <% end %>
+</div>
 
-<h2>create new entry in this collection</h2>
+<div class="chunk">
+  <%= render :partial => 'collection/new' %>
+</div>
 
-<% form_for(:entry, :action => 'create' ) do |f| %>
-  <%= render :partial => "editor/#{@coll.editor}", :locals => { :f => f } %>
-
-  <div class="submission">
-    <input class="primary" type="submit" value="create it!" />
-    <input type="submit" value="save as draft" name='entry[draft]'/>
-  </div>
-
-  <input type="hidden" name="url" value="<%=@coll_url%>" />
-<% end %>
-
-<h2>tools</h2>
+<h2>tools.</h2>
 
 <ul>
   <li><%= link_to 'new entry', :action => 'new', :url => @coll_url %></li>

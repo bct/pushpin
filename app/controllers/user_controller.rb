@@ -4,7 +4,7 @@ class UserController < ApplicationController
   def create
     if @user.update_attributes(params[:user])
       flash[:notice] = 'User was successfully updated.'
-      redirect_to wall_path
+      redirect_to user_path
     else
       render :action => "show"
     end

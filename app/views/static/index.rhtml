@@ -1,7 +1,7 @@
 <p style="clear:both">PushPin is a tool for managing your Atom Publishing Protocol enabled weblog.</p>
 
 <div class="chunk">
-  <h3>post an entry.</h3>
+  <h2>post an entry.</h2>
 
   <% form_for(:entry, :url => {:controller => :entry, :action => 'create'}) do |f| %>
     <%= render :partial => "editor/basic_markdown", :locals => { :f => f } %>
@@ -14,7 +14,7 @@
 </div>
 
 <div class="chunk">
-  <h3>edit a collection.</h3>
+  <h2>edit a collection.</h2>
   <% form_tag service_path, :method => :get do %>
     <label>service document URI: <input name="url" /></label><br />
     <input type="submit" value="view collections" />

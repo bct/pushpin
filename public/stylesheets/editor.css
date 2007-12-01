@@ -68,15 +68,23 @@ ul.usernav {
 }
 
 h2 {
-  margin: 0 0 0.4em 1em;
+  margin: 2em 0 0.4em 1em;
 }
 
 table.entries {
-  width: 80%;
+  margin-bottom: 1em;
+}
+
+th {
+  border-bottom: 1px dotted #999;
 }
 
 tr.odd {
-  background: #ddd;
+  background: #eee;
+}
+
+td {
+  padding: 0 0.5em;
 }
 
 /* editor stuff */
@@ -107,9 +115,11 @@ label {
 label.title, label.tags, label.url, label.rating {
   float: left;
   text-align: right;
+  margin: 0.5em 0;
 }
 
 label.title, label.url {
+  clear: left;
   width: 50%;
 }
 
@@ -141,24 +151,6 @@ label.tags input, label.rating select {
 
 .content textarea {
   margin: 0;
-}
-
-.submission {
-  text-align: center;
-}
-
-.submission input {
-  margin: 0.3em auto;
-  height: 2em;
-
-  border: 1px solid #999;
-  background: #ddd;
-}
-
-.submission .primary {
-  padding-left: 1em;
-  padding-right: 1em;
-  background: #ecc;
 }
 
 /* navigation stuff */
@@ -222,3 +214,41 @@ ul#tabnav a:hover {
 }
 
 /* end css tabs */
+
+/* submit buttons */
+
+.submission {
+  text-align: center;
+}
+
+.submission input, input.submit {
+  margin: 0.3em auto;
+  height: 2em;
+
+  border: 1px solid #999;
+  background: #ddd;
+}
+
+.submission input:hover, input.submit:hover {
+  background: #eee;
+}
+
+.submission .primary {
+  padding-left: 1em;
+  padding-right: 1em;
+  background: #ecc;
+}
+
+.submission .primary:hover {
+  background: #fdd;
+}
+
+input.subtle, input.delete {
+  border: 1px solid #ccc;
+  background: #ddd;
+}
+
+input.subtle:hover, input.delete:hover {
+  background: #eee;
+}
+

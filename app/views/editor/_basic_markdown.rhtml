@@ -1,8 +1,11 @@
   <label class='title'>Title: <%= f.text_field :title %></label>
   <label class='tags'>Tags: <%= f.text_field :tags, :value => @entry.categories.map { |c| c['term'] }.join(' ') %></label>
 
+  <br />
+
   <% if @entry.summary %>
     <%= _summary_editor(html_to_markdown(@entry.summary.html)) %>
+
     <input type="hidden" name="entry[summary_type]" value="markdown" />
   <% end %>
 

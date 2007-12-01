@@ -1,15 +1,4 @@
-class WallController < ApplicationController
-  # GET /wall
-  def show
-    return redirect_to :controller => 'static', :action => 'index' unless @user
-
-    @collections = @user.collections
-
-    respond_to do |format|
-      format.html # index.rhtml
-    end
-  end
-
+class CollectionsController < ApplicationController
   def new
     @collection = Collection.new
   end
@@ -66,7 +55,7 @@ class WallController < ApplicationController
     @collection.destroy
 
     respond_to do |format|
-      format.html { redirect_to wall_url }
+      format.html { redirect_to user_url }
     end
   end
 end

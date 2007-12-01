@@ -1,0 +1,8 @@
+<ul id="tabnav">
+  <% @user.collections.each do |coll| %>
+    <li><%= link_to coll.title.to_s, collection_path(:url => coll.url) %></li>
+  <% end %>
+  <% if @user %><li><%= link_to "add collection", new_user_collection_path %></li><% end %>
+</ul>
+
+<%= render :partial => "collections/new" %>

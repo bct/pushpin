@@ -1,12 +1,34 @@
-<h2>your settings.</h2>
+<div class="chunk">
+  <h2 id="collections">your collections.</h2>
 
-<%= error_messages_for :user %>
+  <table style="margin: 0 auto">
+    <tr><th>title</th><th colspan="3">tools</th></tr>
+  <% for collection in @user.collections %>
+    <tr>
+      <td><%=h collection.title %></td>
+      <td><%= link_to 'show', :controller => 'collection', :action => 'show', :url => collection.url %></td>
+      <td><%= link_to 'edit', :controller => 'collection', :action => 'edit', :url => collection.url %></td>
+      <td><%=  button_to "forget", { :action => 'destroy', :url => collection.url },
+        :class => 'submit subtle', :confirm => "are you sure?", :method => :delete %></td>
+    </tr>
+  <% end %>
+  </table>
 
-<% form_for(:user) do |f| %>
-  <p>These settings will be sent with every entry that you publish.</p>
+  <%= render :partial => "collections/new" %>
+</div>
 
-  <label>name: <%= f.text_field :name %></label><br />
-  <label>uri: <%= f.text_field :uri %></label><br />
+<div class="chunk">
+  <h2 id="settings">change your settings:</h2>
 
-  <%= submit_tag "Update" %>
-<% end %>
+  <%= error_messages_for :user %>
+
+  <% form_for(:user) do |f| %>
+    <p>These settings will be sent with every entry that you publish.</p>
+
+    <label>name: <%= f.text_field :name %></label><br />
+
+    <label>uri: <%= f.text_field :uri %></label><br />
+
+    <div class="submission"><%= submit_tag "update." %>
+  <% end %>
+</div>

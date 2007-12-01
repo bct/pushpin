@@ -1,14 +1,26 @@
 ActionController::Routing::Routes.draw do |map|
   # first created -> highest priority.
- 
-  map.resource :wall, :user
+
+  # this user
+  map.resource :user do |user|
+    # this user's collections
+    user.resources :collections
+  end
+
+  # a remote service document
   map.resource :service
+
+  # a remote collection
   map.resource :collection
-  map.resource :authsub
+
+  # a remote entry
   map.resource :entry, :collection => { :delete_authorization => :get }
 
+  map.resource :authsub
+
+  # front page
   map.connect '', :controller => 'static', :action => 'index'
-  
+
   # Sample of regular route:
   # map.connect 'products/:id', :controller => 'catalog', :action => 'view'
   # Keep in mind you can assign values other than :controller and :action
