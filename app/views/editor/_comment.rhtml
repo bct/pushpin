@@ -1,0 +1,11 @@
+  <% author = @entry.authors.first
+     author ||= Atom::Author.new
+     @entry.authors.clear          %>
+
+  <label>Name: <input name="entry[author][name]" value="<%= h author.name %>" /></label><br />
+  <label>URI: <input name="entry[author][uri]" value="<%= h author.uri %>" /></label><br />
+  <label>Email: <input name="entry[author][email]" value="<%= h author.email %>" /></label><br />
+
+  <%= _text_editor('content', @entry.content ? @entry.content.html : '') %>
+
+  <input type="hidden" name="entry[original]" value="<%=CGI.escapeHTML(@entry.to_s)%>" />
