@@ -16,7 +16,7 @@
       <% end %>
     </p>
   <% else %>
-    <%= _text_editor('content', @entry.content ? entry.content.html : '') %>
+    <%= _text_editor('content', @entry.content ? @entry.content.html : '') %>
   <% end %>
 
   <input type="hidden" name="entry[original]" value="<%=CGI.escapeHTML(@entry.to_s)%>" />
