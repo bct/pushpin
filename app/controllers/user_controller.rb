@@ -1,5 +1,7 @@
 class UserController < ApplicationController
-  def show; end
+  def show
+    redirect_to '/' unless @user
+  end
 
   def create
     if @user.update_attributes(params[:user])
