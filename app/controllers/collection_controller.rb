@@ -27,11 +27,6 @@ class CollectionController < ApplicationController
     @entry = Atom::Entry.new
   end
 
-  # form for editing an existing entry
-  def edit
-    @collection = Collection.find_by_url_and_user_id(n_url(params[:url]), @user)
-  end
-
   # POSTing a new entry
   def create
     @coll_url = n_url params[:url]
@@ -52,13 +47,20 @@ class CollectionController < ApplicationController
     end
   end
 
+  # form for editing an existing entry
+  def edit
+    @collection = Collection.find_by_url_and_user_id(n_url(params[:url]), @user)
+  end
+
+  # updates this collection's details
   def update
-    @collection = Collection.find_by_url_and_user_id(n_url(params[:collection][:url]), @user)
+    @coll_url = n_url params[:collection][:url]
+    @collection = Collection.find_by_url_and_user_id(@coll_url, @user)
 
     respond_to do |format|
       if @collection.update_attributes(params[:collection])
         flash[:notice] = 'collection was successfully updated.'
-        format.html { redirect_to user_path }
+        format.html { redirect_to collection_path(:url => @coll_url) }
       else
         raise "couldn't save the updated collection's details"
       end

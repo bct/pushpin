@@ -1,6 +1,6 @@
 <h2>post an entry to "<%=@coll.title.to_s%>":</h2>
 
-<% form_for(:entry, :action => 'create' ) do |f| %>
+<% form_for(:entry, :url => { :action => 'create' } ) do |f| %>
   <%= render :partial => "editor/#{@coll.kind}", :locals => { :f => f } %>
 
   <input type="hidden" name="url" value="<%=@coll_url%>" />
