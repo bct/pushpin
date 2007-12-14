@@ -19,7 +19,7 @@ class Collection < ActiveRecord::Base
 
     @atom.update!
 
-    unless new_record? or (@atom.title.html == self.title)
+    unless new_record? or not @atom.title or (@atom.title.html == self.title)
       self.title = @atom.title.html
       self.save
     end

@@ -4,7 +4,7 @@ ActionController::Routing::Routes.draw do |map|
   # this user
   map.resource :user do |user|
     # this user's collections
-    user.resources :collections
+    user.resource :collections
   end
 
   # a remote service document

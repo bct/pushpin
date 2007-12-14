@@ -2,7 +2,7 @@
   <% @collections.each do |coll| %>
     <li<%= ' class="selected"' if @coll.url.to_s == coll.url %>><%= link_to coll.title.to_s, :url => coll.url %></li>
   <% end %>
-  <% if @user %><li><%= link_to "add collection", new_user_collection_path %></li><% end %>
+  <% if @user %><li><%= link_to "add collection", new_user_collections_path %></li><% end %>
 </ul>
 
 <%= javascript_include_tag "jquery" %>

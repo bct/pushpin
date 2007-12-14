@@ -5,7 +5,11 @@
         <%= submit_tag 'log out.', :class => 'subtle submit' %>
       </form>
     </li>
+    <li><%= link_to 'your collections', user_path %></li>
     <li><%= link_to 'your settings', user_path %></li>
+    <% if @coll %>
+      <li><%= link_to 'this collection\'s settings', edit_collection_path(:url => @coll.url) %></li>
+    <% end %>
   <% else %>
     <li>
       <%= form_tag :controller => 'openid', :action => 'login' %>

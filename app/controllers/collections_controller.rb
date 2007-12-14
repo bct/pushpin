@@ -38,7 +38,7 @@ class CollectionsController < ApplicationController
           end
 
           flash[:notice] = "i added the collections i found there."
-          redirect_to :action => 'show'
+          redirect_to user_url
         when /text\/html/, /application\/xhtml\+xml/
           raise "collection autodiscovery from HTML not yet implemented"
         else
