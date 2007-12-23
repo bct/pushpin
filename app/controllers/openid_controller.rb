@@ -16,21 +16,25 @@ class OpenidController < ApplicationController
     openid_url = params[:openid_url]
 
     if request.post?
-      request = consumer.begin(openid_url)
-
-      case request.status
-      when OpenID::SUCCESS
-        return_to = url_for(:action=> 'complete')
-        trust_root = url_for(:controller => 'static', :action => 'index')
-
-        url = request.redirect_url(trust_root, return_to)
-        redirect_to(url)
-        return
-      when OpenID::FAILURE
-        escaped_url = CGI.escapeHTML(openid_url)
-        flash[:notice] = "Could not find OpenID server for #{escaped_url}"
+      begin
+        request = consumer.begin(openid_url)
+      rescue Timeout::Error
+        flash[:notice] = "could not connect with OpenID server"
       else
-        flash[:notice] = "An unknown error occured."
+        case request.status
+        when OpenID::SUCCESS
+          return_to = url_for(:action=> 'complete')
+          trust_root = url_for(:controller => 'static', :action => 'index')
+
+          url = request.redirect_url(trust_root, return_to)
+          redirect_to(url)
+          return
+        when OpenID::FAILURE
+          escaped_url = CGI.escapeHTML(openid_url)
+          flash[:notice] = "Could not find OpenID server for #{escaped_url}"
+        else
+          flash[:notice] = "An unknown error occured."
+        end
       end
 
       redirect_to :controller => "static", :action => "index"
