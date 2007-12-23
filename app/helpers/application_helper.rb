@@ -34,6 +34,14 @@ module ApplicationHelper
     end
     ret
   end
+
+  def _display_remote_response(response)
+    if response.content_type.match /html/
+      sanitize_html(response.body.to_s)
+    else
+      '<pre>' + h(response.body.to_s) + '</pre>'
+    end
+  end
 end
 
 class Hash

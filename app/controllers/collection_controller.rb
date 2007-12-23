@@ -50,7 +50,9 @@ class CollectionController < ApplicationController
           redirect_to :controller => 'collection', :action => 'show', :url => @coll_url
         end
       else
-        raise "the server at #{@coll_url} responded to my POST with unexpected status code #{@res.code}"
+        @status = 500
+
+        render :template => 'static/remote_failure'
       end
     end
   end
