@@ -1,11 +1,13 @@
-<div class="content">
-  <label for="<%= name %>"><%= name.capitalize %>:</label>
+<div class="markdown content">
+  <div class="help">
+    <label for="<%= name %>"><%= name.capitalize %>:</label>
+
+    <p class="info">you can use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a> here.</p>
+  </div>
 
   <textarea name="entry[<%= name %>]" id="<%= name %>" cols="56" rows="16"><%=
     CGI.escapeHTML(html_to_markdown(html))
   %></textarea>
-
-  <p class="info">you can use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a> here for links and things.</p>
 
   <input type="hidden" name="entry[<%= name %>_type]" value="markdown" />
 </div>

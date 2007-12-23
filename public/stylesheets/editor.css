@@ -102,6 +102,7 @@ form {
   margin: 0 auto;
   width: 80%;
   max-width: 40em;
+  font-size: 1.2em;
 }
 
 label input, textarea, label select {
@@ -151,20 +152,32 @@ label.tags input, label.rating select {
   clear: both;
   padding-top: 0.3em;
   min-width : 400px;
+  margin-left: -4%;
 }
 
-.content label {
-  width: 8%;
-  margin-right: 4%;
+.content .help {
+  text-align: right;
+  width: 10%;
+  margin-right: 5%;
   float: left;
+}
+
+.content .help .info {
+  font-size: 0.7em;
+  line-height: 1em;
 }
 
 .content textarea {
   margin: 0;
 }
 
+.markdown textarea {
+  font-family: monospace;
+}
+
 /* navigation stuff */
 .nav {
+  margin-top: 2em;
   list-style: none;
   padding: 0;
   text-align: center;
@@ -262,3 +275,11 @@ input.subtle:hover, input.delete:hover {
   background: #eee;
 }
 
+
+.remote-response {
+  border: 1px solid black;
+  width: 80%;
+  margin: 0 auto;
+  padding: 2em;
+  background: #ddd;
+}
