@@ -22,14 +22,17 @@ class CollectionController < ApplicationController
   # form for POSTing a new Entry
   def new
     @coll_url = n_url params[:url]
-    @coll = find_coll(@coll_url)
+    @redirect = params[:redirect]
 
-    @entry = Atom::Entry.new
+    @entry = make_entry(params[:entry])
+
+    @coll = find_coll(@coll_url)
   end
 
   # POSTing a new entry
   def create
     @coll_url = n_url params[:url]
+    @redirect = params[:redirect]
 
     @entry = make_entry(params[:entry])
 
@@ -40,7 +43,12 @@ class CollectionController < ApplicationController
 
       if @res.code == '201'
         flash[:notice] = %{Entry was successfully created. <a href="#{@res["Location"]}">link</a>.}
-        redirect_to :controller => 'collection', :action => 'show', :url => @coll_url
+
+        if @redirect
+          redirect_to @redirect
+        else
+          redirect_to :controller => 'collection', :action => 'show', :url => @coll_url
+        end
       else
         raise "the server at #{@coll_url} responded to my POST with unexpected status code #{@res.code}"
       end
