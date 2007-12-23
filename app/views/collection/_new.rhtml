@@ -1,9 +1,13 @@
-<h2>post an entry to "<%=@coll.title.to_s%>":</h2>
+<h2>post an entry to "<%=h @coll.title.to_s%>":</h2>
 
 <% form_for(:entry, :url => { :action => 'create' } ) do |f| %>
   <%= render :partial => "editor/#{@coll.kind}", :locals => { :f => f } %>
 
-  <input type="hidden" name="url" value="<%=@coll_url%>" />
+  <input type="hidden" name="url" value="<%=h @coll_url%>" />
+
+  <% if @redirect %>
+    <input type="hidden" name="redirect" value="<%=h @redirect%>" />
+  <% end %>
 
   <div class="submission">
     <%= submit_tag 'post it!', :class => 'primary' %>

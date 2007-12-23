@@ -44,7 +44,9 @@ class ApplicationController < ActionController::Base
   def n_url url
     url.strip!
 
-    url = "http://" + url unless url.match(/^http/)
+    # if we don't see ':/' in the first 10 characters of the URL,
+    #  prefix it with http://
+    url = "http://" + url unless url.match(/^.{1,9}:\//)
     url
   end
 

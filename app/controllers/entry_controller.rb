@@ -1,5 +1,4 @@
 class EntryController < ApplicationController
-  # create a new entry
   def index; end
 
   def create
