@@ -18,12 +18,10 @@ class CollectionsController < ApplicationController
           coll = Atom::Collection.parse res.body, @coll_url
           @collection = Collection.new(:url => @coll_url, :user_id => @user, :title => coll.title.to_s)
 
-          if @collection.save
-            flash[:notice] = 'Collection was successfully created.'
-            redirect_to :controller => 'collection', :action => 'show', :url => @collection.url
-          else
-            raise "couldn't save collection"
-          end
+          @collection.save!
+
+          flash[:notice] = 'Collection was successfully created.'
+          redirect_to :controller => 'collection', :action => 'show', :url => @collection.url
         when /application\/atomsvc\+xml/
           @service = Atom::Service.parse(res.body, @coll_url)
 

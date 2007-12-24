@@ -4,7 +4,6 @@ class CollectionController < ApplicationController
     @collections = @user ? @user.collections : []
 
     @coll_url = n_url params[:url]
-
     @coll = find_coll(@coll_url)
 
     maybe_needs_authorization('url' => @coll_url) do
@@ -42,11 +41,11 @@ class CollectionController < ApplicationController
       @res = @coll.post! @entry
 
       if @res.code == '201'
-        flash[:notice] = %{Entry was successfully created. <a href="#{@res["Location"]}">link</a>.}
-
         if @redirect
           redirect_to @redirect
         else
+          flash[:notice] = %{Entry was successfully created. <a href="#{@res["Location"]}">link</a>.}
+
           redirect_to :controller => 'collection', :action => 'show', :url => @coll_url
         end
       else
