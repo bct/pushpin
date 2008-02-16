@@ -89,7 +89,7 @@ module Sanitize
     parsed = HTMLParser.parseFragment(html.to_ncr, {:tokenizer => HTMLSanitizer,
       :encoding => @encoding, :tree => @treebuilder })
     return parsed if @to_tree
-    return parsed.to_s
+    return parsed.to_s.untaint
   end
 
 # Sanitize a REXML tree. The output is a string.

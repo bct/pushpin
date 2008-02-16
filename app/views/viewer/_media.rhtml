@@ -1,11 +1,12 @@
 <table class='entries'>
-<tr><th>title</th><th>content</th><th colspan="2">actions</th></tr>
+<tr><th>title</th><th>content</th><th>link</th><th colspan="2">actions</th></tr>
 
 <% coll.each_with_index do |entry,i| %>
 
 <tr<%= ' class="odd"'unless (i % 2).zero? %>>
   <td class="title"><%= entry.title.to_s.empty? ? "(no title)" : h(entry.title.to_s) %></td>
-  <td><%= entry.content.to_s.empty? ? "(no content)" : sanitize_html(entry.content.html) %></td>
+  <td><%= entry.summary.to_s.empty? ? "(no summary)" : sanitize_html(entry.summary.html) %></td>
+  <td><%= link_to h(entry.content['type']), h(entry.content['src']) %></td>
   <td><%= # XXX if not entry.edit_url
           link_to 'edit', edit_entry_path(:url => entry.edit_url,
                                           :coll_url => coll.url) %></td>

@@ -8,4 +8,4 @@
 
   <%= _text_editor('content', @entry.content ? @entry.content.html : '') %>
 
-  <input type="hidden" name="entry[original]" value="<%=CGI.escapeHTML(@entry.to_s)%>" />
+  <input type="hidden" name="entry[original]" value="<%=h @entry.to_s %>" />

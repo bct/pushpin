@@ -3,20 +3,24 @@
 
   <br />
 
-  <% if @entry.summary %>
-    <%= _text_editor('summary', @entry.summary ? @entry.summary.html : '') %>
-  <% end %>
+  <%= _text_editor('summary', @entry.summary ? @entry.summary.html : '') %>
 
   <% if @entry.content and @entry.content["src"] %>
     <p class="content">
       <% if @entry.content["type"] and @entry.content["type"].match(/^image\//) %>
-        Content: <img src="<%= @entry.content["src"] %>" />
+        Content: <img src="<%=h @entry.content["src"] %>" />
       <% else %>
-        this entry has "<%= @entry.content["type"] %>" content located <a href="<%= @entry.content["src"] %>">here</a>.
+        this entry has "<%=h @entry.content["type"] %>" content located <a href="<%=h @entry.content["src"] %>">here</a>.
       <% end %>
     </p>
-  <% else %>
-    <%= _text_editor('content', @entry.content ? @entry.content.html : '') %>
   <% end %>
+
+  <h1 style="color:red;">New File</h1>
+
+  <label>New file URL: <input name="new_file_url" /></label><br />
+
+  <h1 style="color:red;">or</h1>
+
+  <label>Upload a new file: <input name="new_file_upload" type="file" /></label>
 
   <input type="hidden" name="entry[original]" value="<%=h @entry.to_s %>" />

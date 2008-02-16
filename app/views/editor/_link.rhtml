@@ -15,4 +15,4 @@ link ? h(link['href']) : ''%>" /></label>
 
 <input type="hidden" name="entry[summary_type]" value="markdown" />
 
-<input type="hidden" name="entry[original]" value="<%=CGI.escapeHTML(@entry.to_s)%>" />
+<input type="hidden" name="entry[original]" value="<%=h @entry.to_s %>" />

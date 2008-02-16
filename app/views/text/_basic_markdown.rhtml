@@ -5,9 +5,10 @@
     <p class="info">you can use <a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a> here.</p>
   </div>
 
-  <textarea name="entry[<%= name %>]" id="<%= name %>" cols="56" rows="16"><%=
-    CGI.escapeHTML(html_to_markdown(html))
-  %></textarea>
+  <textarea
+    name="entry[<%= name %>]"
+    id="<%= name %>"
+    cols="56" rows="16"><%=h html_to_markdown(html) %></textarea>
 
   <input type="hidden" name="entry[<%= name %>_type]" value="markdown" />
 </div>

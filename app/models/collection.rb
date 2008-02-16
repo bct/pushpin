@@ -42,6 +42,6 @@ class Collection < ActiveRecord::Base
   end
 
   def self.kinds
-    ['basic entry', 'link', 'comment']
+    ['basic entry', 'link', 'comment', 'media']
   end
 end

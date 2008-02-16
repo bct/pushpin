@@ -8,7 +8,7 @@
   <td><%= h entry.categories.map { |c| c['term'] }.join(' ') %></td>
   <td><%= entry.summary.to_s.empty? ? "(no summary)" : sanitize_html(entry.summary.html) %></td>
   <td><%= link = entry.links.find { |l| l['rel'] == 'related' }
-          link ? link_to('link', link['href']) : '(no link)' %></td>
+          link ? link_to('link', h(link['href'])) : '(no link)' %></td>
   <td><%= link_to 'edit', edit_entry_path(:url => entry.edit_url,
                                           :coll_url => coll.url) %></td>
   <td><%= button_to "delete", { :controller => 'entry',
