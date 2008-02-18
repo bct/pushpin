@@ -36,7 +36,7 @@ module ApplicationHelper
   end
 
   def _display_remote_response(response)
-    if response.content_type.match /html/
+    if response.content_type and response.content_type.match /html/
       sanitize_html(response.body.to_s)
     else
       '<pre>' + h(response.body.to_s) + '</pre>'

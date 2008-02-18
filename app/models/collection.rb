@@ -31,6 +31,12 @@ class Collection < ActiveRecord::Base
     @atom.post! *args
   end
 
+  def post_media! *args
+    get_atom
+
+    @atom.post_media! *args
+  end
+
   include Enumerable
 
   def each &block

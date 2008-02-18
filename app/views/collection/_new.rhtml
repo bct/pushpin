@@ -1,6 +1,12 @@
 <h2>post an entry to "<%=h @coll.title.to_s%>":</h2>
 
-<% form_for(:entry, :url => { :action => 'create' } ) do |f| %>
+<% this_is_media_coll = (@coll.kind == 'media')
+
+   form_for(:entry,
+            :url => { :action => 'create' },
+            :html => { :multipart => this_is_media_coll }
+           ) do |f| %>
+
   <%= render :partial => "editor/#{@coll.kind}", :locals => { :f => f } %>
 
   <input type="hidden" name="url" value="<%=h @coll_url%>" />
@@ -11,6 +17,8 @@
 
   <div class="submission">
     <%= submit_tag 'post it!', :class => 'primary' %>
-    <input type="submit" value="save as draft" name='entry[draft]'/>
+    <% unless this_is_media_coll %>
+      <input type="submit" value="save as draft" name='entry[draft]'/>
+    <% end %>
   </div>
 <% end %>

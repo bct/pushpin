@@ -33,10 +33,18 @@ class CollectionController < ApplicationController
     @coll_url = n_url params[:url]
     @redirect = params[:redirect]
 
-    @entry = make_entry(params[:entry])
-
     @coll = find_coll(@coll_url)
 
+    if params.member? :new_file_url or params.member? :new_file_upload
+      post_media_entry
+    else
+      @entry = make_entry(params[:entry])
+
+      post_regular_entry
+    end
+  end
+
+  def post_regular_entry
     maybe_needs_authorization('url' => @coll_url, 'entry' => { 'original' => @entry.to_s}) do
       @res = @coll.post! @entry
 
@@ -47,6 +55,57 @@ class CollectionController < ApplicationController
           flash[:notice] = %{Entry was successfully created. <a href="#{@res["Location"]}">link</a>.}
 
           redirect_to :controller => 'collection', :action => 'show', :url => @coll_url
+        end
+      else
+        @status = 500
+
+        render :template => 'static/remote_failure'
+      end
+    end
+  end
+
+  def post_media_entry
+    # XXX maximum file size limits or at least tracking
+
+    if params.member? :new_file_upload
+      media = params[:new_file_upload].read
+      mimetype = params[:new_file_upload].content_type
+    elsif params[:new_file_url] and not params[:new_file_url].empty?
+      res = @coll.http.get params[:new_file_url]
+
+      media = res.body
+      mimetype = res['Content-Type']
+    end
+
+    raise 'no mimetype' unless mimetype
+
+    maybe_needs_authorization('url' => @coll_url, 'entry' => { 'original' => @entry.to_s}) do
+      @res = @coll.post_media! media, mimetype
+
+      if @res.code == '201'
+        ps = params[:entry]
+
+        if @res['Content-Type'] and @res['Content-Type'].match /atom\+xml/
+          ps[:original] = @res.body
+        end
+
+        @entry = make_entry(ps)
+
+        # media successfully posted, send our updates to the metadata
+        @res = @coll.http.put @res['Location'], @entry.to_s
+
+        if @res.code == '200'
+          if @redirect
+            redirect_to @redirect
+          else
+            flash[:notice] = 'Media entry successfully created.'
+
+            redirect_to :controller => 'collection', :action => 'show', :url => @coll_url
+          end
+        else
+          @status = 500
+
+          render :template => 'static/remote_failure'
         end
       else
         @status = 500

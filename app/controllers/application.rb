@@ -69,6 +69,10 @@ class ApplicationController < ActionController::Base
   #   rel
   #   href
   def make_entry(params)
+    unless params
+      return Atom::Entry.new
+    end
+
     if params[:complete]
       return Atom::Entry.parse(params[:complete])
     end
