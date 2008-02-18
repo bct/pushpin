@@ -16,6 +16,14 @@ class CollectionController < ApplicationController
         wants.xml  { render :xml => @collection.to_xml }
       end
     end
+  rescue Atom::WrongMimetype => e
+    flash[:error] = "#{@coll_url} doesn't seem to be an Atom Collection (wrong Content-Type)."
+
+    if @user
+      redirect_to user_path
+    else
+      redirect_to ''
+    end
   end
 
   # form for POSTing a new Entry

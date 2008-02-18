@@ -1,4 +1,10 @@
-<p style="clear:both">PushPin is a tool for managing your Atom Publishing Protocol enabled weblog.</p>
+<div class="chunk" style="clear:both">
+  <h2>what is PushPin?</h2>
+
+  <p>PushPin is a tool for managing your Atom Publishing Protocol enabled weblog.</p>
+
+  <p> You can try it out in the <%= link_to 'sandbox', collection_path(:url => 'http://necronomicorp.com/pushpin/sandbox?t=atom') %>.  </p>
+</div>
 
 <div class="chunk">
   <h2>post an entry.</h2>
@@ -19,7 +25,4 @@
     <label>service document URI: <input name="url" /></label><br />
     <div class="submission"><%= submit_tag 'view collections.' %></div>
   <% end %>
-  <p>
-  You can try it out in the <a href="http://necronomicorp.com/pushpin/sandbox">sandbox</a>.
-  </p>
 </div>

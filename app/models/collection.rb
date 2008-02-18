@@ -2,7 +2,7 @@ class Collection < ActiveRecord::Base
   belongs_to :user
 
   def title
-    (super or self.url)
+    (super or get_atom.title or self.url)
   end
 
   validates_uniqueness_of :url, :on => :create, :scope => [ :user_id ]

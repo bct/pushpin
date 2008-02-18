@@ -53,7 +53,7 @@ END
 %>
 
 <div class="chunk">
-  <h2>contents of "<%=@coll.title.to_s%>".</h2>
+  <h2>contents of "<%=h @coll.title.to_s %>".</h2>
 
   <% unless @coll.empty? %>
     <%= render :partial => "viewer/#{@coll.kind}", :locals => { :coll => @coll } %>
