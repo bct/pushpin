@@ -67,7 +67,7 @@ class CollectionController < ApplicationController
   def post_media_entry
     # XXX maximum file size limits or at least tracking
 
-    if params.member? :new_file_upload
+    if params[:new_file_upload].respond_to? :read
       media = params[:new_file_upload].read
       mimetype = params[:new_file_upload].content_type
     elsif params[:new_file_url] and not params[:new_file_url].empty?
