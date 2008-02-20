@@ -1,7 +1,7 @@
 <ul class="usernav">
   <% if @user %>
     <li>
-      <%= form_tag :controller => 'openid', :action =>'logout' %>
+      <%= form_tag :controller => 'openid', :action => 'logout' %>
         <%= submit_tag 'log out.', :class => 'subtle submit' %>
       </form>
     </li>
@@ -11,7 +11,7 @@
       <li><%= link_to "this collection's settings", edit_collection_path(:url => @coll.url) %></li>
 
       <% if @coll.kind == 'link' %>
-        <li><%= link_to "bookmarklet: post link to #{@coll.title}", h("javascript:document.location='#{new_collection_path(:only_path => false)}?url=#{@coll_url}&entry[title]=' + document.title + '&entry[links][][rel]=related&entry[links][][href]=' + document.      location + '&redirect=' + document.location;") %></li>
+        <li><%= link_to "bookmarklet: post link to #{@coll.title}", h("javascript:document.location='#{new_collection_path(:only_path => false)}?url=#{@coll_url}&entry[title]=' + document.title + '&entry[links][][rel]=related&entry[links][][href]=' + document.location + '&redirect=' + document.location;") %></li>
       <% end %>
     <% end %>
   <% else %>
@@ -20,5 +20,6 @@
       <input name="openid_url" class="openid_login"/> <%= submit_tag 'log in.', :class => 'subtle submit' %>
       </form>
     </li>
+    <li style='text-align:center'><%= link_to 'sign up.', :controller => 'static', :action => 'signup' %>
   <% end %>
 </ul>

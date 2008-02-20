@@ -71,3 +71,19 @@ div.progressBar div.background {
   width: 0%;
 }
 
+.openidproviders {
+  width: 80%;
+  margin: 0 auto;
+}
+
+.openidproviders a {
+  text-decoration: none;
+}
+
+.openidproviders td {
+  text-align: center;
+}
+
+.openidproviders img {
+  border: 0;
+}
