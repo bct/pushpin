@@ -9,6 +9,8 @@ class CollectionController < ApplicationController
     maybe_needs_authorization('url' => @coll_url) do
       @coll.update!
 
+      @title = "editing collection #{@coll.title.to_s.inspect}."
+
       @entry = Atom::Entry.new
 
       respond_to do |wants|
@@ -34,6 +36,8 @@ class CollectionController < ApplicationController
     @entry = make_entry(params[:entry])
 
     @coll = find_coll(@coll_url)
+
+    @title = "posting a new entry to #{@coll.title.to_s.inspect}"
   end
 
   # POSTing a new entry
@@ -61,7 +65,7 @@ class CollectionController < ApplicationController
       else
         flsh = 'Entry was successfully created.'
 
-        if @res['Content-Type'].match /atom\+xml/
+        if @res['Content-Type'] and @res['Content-Type'].match /atom\+xml/
           entry = Atom::Entry.parse @res.body, @res['Location']
 
           alt = entry.links.find { |l| l['rel'] == 'alternate' }
@@ -73,7 +77,7 @@ class CollectionController < ApplicationController
 
         flash[:notice] = flsh
 
-        redirect_to :controller => 'collection', :action => 'show', :url => @coll_url
+        redirect_to collection_path(:url => @coll_url)
       end
     end
   rescue RemoteFailure => e
