@@ -18,9 +18,9 @@
 
 <div class="main">
 <% if flash[:notice] %>
-  <p style="color: green"><%=h flash[:notice] %></p>
+  <p style="color: green"><%= flash[:notice].untaint %></p>
 <% elsif flash[:error] %>
-  <p style="color: red"><%=h flash[:error] %></p>
+  <p style="color: red"><%= flash[:error].untaint %></p>
 <% end %>
 
 <%= yield  %>

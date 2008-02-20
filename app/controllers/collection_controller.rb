@@ -17,7 +17,7 @@ class CollectionController < ApplicationController
       end
     end
   rescue Atom::WrongMimetype => e
-    flash[:error] = "#{@coll_url} doesn't seem to be an Atom Collection (wrong Content-Type)."
+    flash[:error] = "#{CGI.escapeHTML @coll_url} doesn't seem to be an Atom Collection (wrong Content-Type)."
 
     if @user
       redirect_to user_path
@@ -56,20 +56,32 @@ class CollectionController < ApplicationController
     maybe_needs_authorization('url' => @coll_url, 'entry' => { 'original' => @entry.to_s}) do
       @res = @coll.post! @entry
 
-      if @res.code == '201'
-        if @redirect
-          redirect_to @redirect
-        else
-          flash[:notice] = %{Entry was successfully created. <a href="#{@res["Location"]}">link</a>.}
-
-          redirect_to :controller => 'collection', :action => 'show', :url => @coll_url
-        end
+      if @redirect
+        redirect_to @redirect
       else
-        @status = 500
+        flsh = 'Entry was successfully created.'
 
-        render :template => 'static/remote_failure'
+        if @res['Content-Type'].match /atom\+xml/
+          entry = Atom::Entry.parse @res.body, @res['Location']
+
+          alt = entry.links.find { |l| l['rel'] == 'alternate' }
+
+          if alt
+            flsh += %{ <a href="#{CGI.escapeHTML alt['href']}">link</a>.}
+          end
+        end
+
+        flash[:notice] = flsh
+
+        redirect_to :controller => 'collection', :action => 'show', :url => @coll_url
       end
     end
+  rescue RemoteFailure => e
+    @res = e.res
+
+    @status = 500
+
+    render :template => 'static/remote_failure'
   end
 
   def post_media_entry
@@ -85,42 +97,31 @@ class CollectionController < ApplicationController
       mimetype = res['Content-Type']
     end
 
-    raise 'no mimetype' unless mimetype
-
     maybe_needs_authorization('url' => @coll_url, 'entry' => { 'original' => @entry.to_s}) do
-      @res = @coll.post_media! media, mimetype
-
-      if @res.code == '201'
+      @res = @coll.post_media!(media, mimetype) do |orig|
         ps = params[:entry]
 
-        if @res['Content-Type'] and @res['Content-Type'].match /atom\+xml/
+        if orig
           ps[:original] = @res.body
         end
 
         @entry = make_entry(ps)
+      end
 
-        # media successfully posted, send our updates to the metadata
-        @res = @coll.http.put @res['Location'], @entry.to_s
-
-        if @res.code == '200'
-          if @redirect
-            redirect_to @redirect
-          else
-            flash[:notice] = 'Media entry successfully created.'
-
-            redirect_to :controller => 'collection', :action => 'show', :url => @coll_url
-          end
-        else
-          @status = 500
-
-          render :template => 'static/remote_failure'
-        end
+      if @redirect
+        redirect_to @redirect
       else
-        @status = 500
+        flash[:notice] = 'Media entry successfully created.'
 
-        render :template => 'static/remote_failure'
+        redirect_to :controller => 'collection', :action => 'show', :url => @coll_url
       end
     end
+  rescue RemoteFailure => e
+    @res = e.res
+
+    @status = 500
+
+    render :template => 'static/remote_failure'
   end
 
   # form for editing an existing entry

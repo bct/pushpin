@@ -5,6 +5,16 @@ require_dependency "openid_login_system"
 
 class NeedAuthSub < RuntimeError; end
 
+class RemoteFailure < RuntimeError
+  attr_reader :res
+
+  def initialize(res, *args)
+    @res = res
+
+    super *args
+  end
+end
+
 class ApplicationController < ActionController::Base
   include OpenidLoginSystem
 

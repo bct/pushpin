@@ -28,13 +28,37 @@ class Collection < ActiveRecord::Base
   def post! *args
     get_atom
 
-    @atom.post! *args
+    res = @atom.post! *args
+
+    unless res.code == '201'
+      raise RemoteFailure.new(res, 'expected 201 in response to POST')
+    end
+
+    res
   end
 
   def post_media! *args
     get_atom
 
-    @atom.post_media! *args
+    mres = @atom.post_media! *args
+
+    unless mres.code == '201'
+      raise RemoteFailure.new(mres, 'expected 201 in response to POST')
+    end
+
+    entry = if @res['Content-Type'] and @res['Content-Type'].match /atom\+xml/
+              yield @res.body
+            else
+              yield nil
+            end
+
+    ares = @http.put mres['Location'], entry.to_s
+
+    unless ares.status == '200'
+      raise RemoteFailure.new(mres, 'expected 200 in response to PUT')
+    end
+
+    ares
   end
 
   include Enumerable
