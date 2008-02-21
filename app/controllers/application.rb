@@ -144,7 +144,8 @@ class ApplicationController < ActionController::Base
   end
 
   def new_atom_http
-    PushpinHTTP.new(@user, params)
+    raise 'i don\'t think you need more than one http per request' if @http
+    @http = PushpinHTTP.new(@user, params)
   end
 
   # creates a URL for the user to be redirected to for AuthSub
@@ -176,6 +177,9 @@ class ApplicationController < ActionController::Base
 end
 
 class PushpinHTTP < Atom::HTTP
+  # the last URL we made a request to
+  attr_reader :last_url
+
   def initialize(user, params)
     super $http_cache_dir
 
@@ -186,10 +190,8 @@ class PushpinHTTP < Atom::HTTP
     end
 
     self.when_auth do |abs_url, realm|
-      @abs_url, @realm = abs_url, realm
-
       if @user
-        auth = @user.auth_for(@abs_url, @realm)
+        auth = @user.auth_for(abs_url, realm)
       end
 
       if params[:user] and params[:pass]
@@ -221,5 +223,11 @@ class PushpinHTTP < Atom::HTTP
     raise NeedAuthSub unless @token
 
     req['Authorization'] = %{AuthSub token="#{@token}"}
+  end
+
+  def http_request(url_s, *args)
+    @last_url = url_s
+
+    super
   end
 end
