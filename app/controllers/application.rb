@@ -200,8 +200,8 @@ class PushpinHTTP < Atom::HTTP
           auth ||= HTTPAuth.new
 
           auth.user_id = @user.id
-          auth.abs_url = @abs_url
-          auth.realm = @realm
+          auth.abs_url = abs_url
+          auth.realm = realm
           auth.username = params[:user]
           auth.password = params[:pass]
           auth.save
