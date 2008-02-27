@@ -12,7 +12,7 @@ input.openid_login {
 /* major stuff */
 .chunk, .collectionlist {
   border-bottom: 1px dotted #667;
-  padding: 0.5em;
+  padding: 0 0.5em;
   margin: 1em auto;
   width: 80%;
 }
@@ -27,6 +27,9 @@ a:link {
 
 a:visited {
   color: #445;
+}
+
+input#logout {
 }
 
 /* word-wrapped monospace raw HTTP bodies for unexpected response type */
@@ -61,24 +64,12 @@ ul.usernav {
   list-style: none;
 }
 
-.main, body {
-  background: #f0f8f0;
-}
-
-.chunk {
-  background: white;
-}
-
 .main, h3 {
   clear: both;
 }
 
-h2, h3 {
-  margin: 1em 2em;
-}
-
-h3 {
-  margin: 0.5em 2em;
+h2 {
+  margin: 2em 0 2em 1em;
 }
 
 /* tables for displaying lists of entries and collections */
@@ -130,7 +121,6 @@ label {
   display: block;
   width: 60%;
   text-align: right;
-  line-height: 2em;
 }
 
 label.title, label.tags, label.url, label.rating {
@@ -220,11 +210,12 @@ ul#tabnav li {
 }
 
 ul#tabnav li.selected a { /* settings for selected tab */
-  border-bottom: 0;
+  border-bottom: 1px solid #fff;
+  background-color: #fff;
 }
 
 ul#tabnav li.selected a { /* settings for selected tab link */
-  background-color: #f0f8f0;
+  background-color: #fff;
   color: #000;
   position: relative;
   top: 1px;
@@ -284,13 +275,6 @@ input.subtle:hover, input.delete:hover {
   background: #eee;
 }
 
-
-.preview-box {
-  border: 1px solid #999;
-  margin-top: 1.5em;
-  padding: 1em;
-  line-height: 100%;
-}
 
 .remote-response {
   border: 1px solid black;
