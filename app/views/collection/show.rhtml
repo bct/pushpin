@@ -5,51 +5,13 @@
   <% if @user %><li><%= link_to "add collection", new_user_collections_path %></li><% end %>
 </ul>
 
-
 <%= javascript_tag <<END
-function deletedEntry(tr) {
-  tr.fadeOut(function() { $(this).remove(); });
-}
-
-function failDeleteEntry(xhr, tr) {
-  var statustd = tr.children(":last")
-  if (xhr.status == 401) {
-    params = eval('(' + xhr.responseText + ')');
-    if(params.status == "unauthorized") {
-      delete params.response;
-      var auth_url = "#{delete_authorization_entry_path}?" + jQuery.param(params);
-      statustd.html("<a href='" + auth_url + "'>enter login data</a>.");
-    } else if (params.status == "needtokenauth") {
-      statustd.html("<a href='" + params.redirect_to + "'>enter login data</a>.");
-    }
-  } else {
-    statustd.text("unknown error.");
-  }
-}
-
-$(document).ready(function(){
-  $(".delete").click(function(){
-    $(this).attr("disabled", "disabled");
-    var form = $(this).parents("form");
-
-    var tr = $(this).parents("tr");
-
-    tr.append('<td>#{image_tag "spinner_moz.gif", :size => "16x16"}</td>')
-
-    $.ajax({ type: "POST",
-             url: form.attr("action"),
-             beforeSend: function(xhr) { xhr.setRequestHeader("Accept", "application/json") },
-             data: form.serialize(),
-             dataType: "json",
-             success: function(data, textstatus) { deletedEntry(tr) },
-             error: function(xhr, textstatus, error) { failDeleteEntry(xhr, tr) }
-             })
-
-    return false;
-  });
-});
+var delAuthUrlPrefix = "#{delete_authorization_entry_path}?";
+var spinnerImg = '#{image_tag "spinner_moz.gif", :size => "16x16"}';
 END
 %>
+
+<%= javascript_include_tag 'ajax-delete' %>
 
 <div class="chunk">
   <h2>contents of "<%=h @coll.title.to_s %>".</h2>
