@@ -6,8 +6,8 @@
   <% for collection in @user.collections %>
     <tr>
       <td><%=h collection.title %></td>
-      <td><%= link_to 'show', :controller => 'collection', :action => 'show', :url => collection.url %></td>
-      <td><%= link_to 'edit', :controller => 'collection', :action => 'edit', :url => collection.url %></td>
+      <td><%= link_to 'edit', :controller => 'collection', :action => 'show', :url => collection.url %></td>
+      <td><%= link_to 'options', :controller => 'collection', :action => 'edit', :url => collection.url %></td>
       <td><%=  button_to "forget", user_collections_path(:url => collection.url),
         :class => 'submit subtle', :confirm => "are you sure?", :method => :delete %></td>
     </tr>

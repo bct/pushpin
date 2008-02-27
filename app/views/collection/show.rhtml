@@ -5,7 +5,6 @@
   <% if @user %><li><%= link_to "add collection", new_user_collections_path %></li><% end %>
 </ul>
 
-<%= javascript_include_tag "jquery" %>
 
 <%= javascript_tag <<END
 function deletedEntry(tr) {
