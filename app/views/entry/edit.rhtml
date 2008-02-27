@@ -1,12 +1,14 @@
 <h2>editing <%= @entry.title ? %{"#{sanitize_html @entry.title.html}"} : 'an entry' %>, PushPin.</h2>
 
-<% form_for(:entry, :url => entry_path, :html => { :method => :put } ) do |f| %>
-  <%= render :partial => "editor/#{@coll.kind}", :locals => { :f => f } %>
+<div class="chunk">
+  <% form_for(:entry, :url => entry_path, :html => { :method => :put } ) do |f| %>
+    <%= render :partial => "editor/#{@coll.kind}", :locals => { :f => f } %>
 
-  <input type="hidden" name="url" value="<%= h @entry_url %>" />
-  <input type="hidden" name="coll_url" value="<%= h @coll_url %>" />
+    <input type="hidden" name="url" value="<%= h @entry_url %>" />
+    <input type="hidden" name="coll_url" value="<%= h @coll_url %>" />
 
-  <div class="submission">
-    <%= submit_tag 'update it!', :class => 'primary' %>
-  </div>
-<% end %>
+    <div class="submission">
+      <%= submit_tag 'update it!', :class => 'primary' %>
+    </div>
+  <% end %>
+</div>

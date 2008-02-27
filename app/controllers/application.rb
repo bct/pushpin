@@ -143,9 +143,10 @@ class ApplicationController < ActionController::Base
     entry
   end
 
+  # return an Atom::HTTP object for controllers to use
+  # despite this method's name, it will return the same object if called twice
   def new_atom_http
-    raise 'i don\'t think you need more than one http per request' if @http
-    @http = PushpinHTTP.new(@user, params)
+    @http ||= PushpinHTTP.new(@user, params)
   end
 
   # creates a URL for the user to be redirected to for AuthSub

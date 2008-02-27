@@ -11,4 +11,19 @@
     cols="56" rows="16"><%=h html_to_markdown(html) %></textarea>
 
   <input type="hidden" name="entry[<%= name %>_type]" value="markdown" />
+
+  <%= javascript_include_tag "jquery" # XXX this may have been included before
+%>
+  <%= javascript_include_tag "showdown" %>
+
+  <%= javascript_tag <<END
+var converter = new Showdown.converter();
+
+$('##{name}').parent().after('<div class="preview-box"><h3>Live Comment Preview</h3><div id="live-preview">' + converter.makeHtml($('##{name}').val()) + '</div></div>');
+
+$('##{name}').keyup(function() {
+  $('#live-preview').html( converter.makeHtml($(this).val()) );
+});
+END
+%>
 </div>

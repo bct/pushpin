@@ -1,12 +1,14 @@
-<h2>edit collection.</h2>
+<div class="chunk">
+  <h2>collection settings:</h2>
 
-<%= error_messages_for :collection %>
+  <%= error_messages_for :collection %>
 
-<% form_for(:collection, :url => { :action => 'update' }, :html => { :method => :put }) do |f| %>
-  <label>title: <%= f.text_field :title %></label><br />
-  <label>kind: <%= f.select :kind, Collection.kinds.map { |x| [x, x.gsub(/ /, '_')] } %></label><br />
+  <% form_for(:collection, :url => { :action => 'update' }, :html => { :method => :put }) do |f| %>
+    <label>title: <%= f.text_field :title %></label><br />
+    <label>kind: <%= f.select :kind, Collection.kinds.map { |x| [x, x.gsub(/ /, '_')] } %></label><br />
 
-  <%= f.hidden_field :url %>
+    <%= f.hidden_field :url %>
 
-  <div class="submission"><%= submit_tag "update" %></div>
-<% end %>
+    <div class="submission"><%= submit_tag "update" %></div>
+  <% end %>
+</div>
