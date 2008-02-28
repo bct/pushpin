@@ -1,5 +1,7 @@
 require_dependency "openid_login_system"
 
+require 'lib/collection_types'
+
 class NeedAuthSub < RuntimeError; end
 
 class RemoteFailure < RuntimeError
@@ -75,6 +77,7 @@ class ApplicationController < ActionController::Base
   # links:
   #   rel
   #   href
+  # extra: name of a method to be called on EntryConstructor
   def make_entry(params)
     unless params
       return Atom::Entry.new
@@ -135,6 +138,11 @@ class ApplicationController < ActionController::Base
         entry.send(sym.to_s + '=', text)
         entry.send(sym)['type'] = (type or ptype)
       end
+    end
+
+    # extension mechanism
+    if EntryConstructor.singleton_methods.member? params['extra']
+      EntryConstructor.send params['extra'].to_sym, entry, params
     end
 
     entry
