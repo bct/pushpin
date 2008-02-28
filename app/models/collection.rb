@@ -46,15 +46,15 @@ class Collection < ActiveRecord::Base
       raise RemoteFailure.new(mres, 'expected 201 in response to POST')
     end
 
-    entry = if @res['Content-Type'] and @res['Content-Type'].match /atom\+xml/
-              yield @res.body
+    entry = if mres['Content-Type'] and mres['Content-Type'].match /atom\+xml/
+              yield mres.body
             else
               yield nil
             end
 
     ares = @http.put mres['Location'], entry.to_s
 
-    unless ares.status == '200'
+    unless ares.code == '200'
       raise RemoteFailure.new(mres, 'expected 200 in response to PUT')
     end
 

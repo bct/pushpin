@@ -47,7 +47,7 @@ class CollectionController < ApplicationController
 
     @coll = find_coll(@coll_url)
 
-    if params.member? :new_file_url or params.member? :new_file_upload
+    if [:new_file_url, :new_file_upload, :deferred_media].any? { |s| params.member? s }
       post_media_entry
     else
       @entry = make_entry(params[:entry])
@@ -99,9 +99,12 @@ class CollectionController < ApplicationController
 
       media = res.body
       mimetype = res['Content-Type']
+    elsif params[:deferred_media] and params[:deferred_media].match /^[\d\w]+$/
+      media = read_deferred_media(params[:deferred_media])
+      mimetype = params[:deferred_media_type]
     end
 
-    maybe_needs_authorization('url' => @coll_url, 'entry' => { 'original' => @entry.to_s}) do
+    maybe_needs_authorization('url' => @coll_url, 'entry' => params[:entry], 'deferred_media' => media, 'deferred_media_type' => mimetype) do
       @res = @coll.post_media!(media, mimetype) do |orig|
         ps = params[:entry]
 

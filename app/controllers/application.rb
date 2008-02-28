@@ -1,6 +1,3 @@
-# Filters added to this controller apply to all controllers in the application.
-# Likewise, all the methods added will be available for all controllers.
-
 require_dependency "openid_login_system"
 
 class NeedAuthSub < RuntimeError; end
@@ -170,10 +167,40 @@ class ApplicationController < ActionController::Base
     begin
       yield
     rescue Atom::Unauthorized
+      if ps['deferred_media']
+        ps['deferred_media'] = write_deferred_media(ps['deferred_media'])
+      end
+      @last_url = @http.last_url
       obtain_authorization(request.method, ps)
     rescue NeedAuthSub
+      if ps['deferred_media']
+        ps['deferred_media'] = write_deferred_media(ps['deferred_media'])
+      end
       redirect_to authsub_url(ps)
     end
+  end
+
+  # temporarily saves a media file so a request can be tried again later
+  # returns a token that can be used to retrieve the file
+  def write_deferred_media media
+    begin
+      token = rand(2 ** 32).to_s(36)
+      filename = './db/deferred/' + token
+    end while File.exists?(filename)
+
+    File.open(filename, 'w') { |f| f.write media }
+
+    token
+  end
+
+  # returns the contents. deletes the temporary file.
+  def read_deferred_media token
+    filename = './db/deferred/' + token
+
+    media = File.read(filename)
+    File.delete filename
+
+    media
   end
 end
 
