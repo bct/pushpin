@@ -17,7 +17,7 @@
 
   <div class="submission">
     <%= submit_tag 'post it!', :class => 'primary' %>
-    <% unless this_is_media_coll %>
+    <% unless true or this_is_media_coll %>
       <input type="submit" value="save as draft" name='entry[draft]'/>
     <% end %>
   </div>
