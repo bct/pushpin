@@ -10,9 +10,9 @@
   <% if @entry.content and @entry.content["src"] %>
     <p class="content">
       <% if @entry.content["type"] and @entry.content["type"].match(/^image\//) %>
-        Content: <img src="<%= @entry.content["src"] %>" />
+        Content: <img src="<%=h @entry.content["src"] %>" />
       <% else %>
-        this entry has "<%= @entry.content["type"] %>" content located <a href="<%= @entry.content["src"] %>">here</a>.
+        this entry has "<%=h @entry.content["type"] %>" content located <a href="<%=h @entry.content["src"] %>">here</a>.
       <% end %>
     </p>
   <% else %>

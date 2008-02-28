@@ -43,6 +43,7 @@ class ApplicationController < ActionController::Base
   end
 
   def obtain_authorization method, continue_params = {}
+    @title = 'you need to authenticate.'
     @failed = params[:user]
     @continue_method = method
     @continue_params = continue_params

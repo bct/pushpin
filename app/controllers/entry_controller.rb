@@ -15,6 +15,12 @@ class EntryController < ApplicationController
     maybe_needs_authorization('url' => @entry_url, 'coll_url' => @coll_url) do
       @entry = new_atom_http.get_atom_entry @entry_url
     end
+
+    @title = if @entry.title
+               "editing \"#{@entry.title.to_s}\"."
+             else
+               "editing an entry."
+             end
   end
 
   def update
@@ -82,8 +88,7 @@ class EntryController < ApplicationController
           render :json => {:status => 'unauthorized',
                            :url => @delete_url,
                            :coll_url => @coll_url,
-                           :abs_url => @abs_url,
-                           :realm => @realm           }.to_json,
+                           :last_url => @http.last_url }.to_json,
                  :status => 401
         end
       end
@@ -91,8 +96,7 @@ class EntryController < ApplicationController
   end
 
   def delete_authorization
-    @abs_url = params[:abs_url]
-    @realm = params[:realm]
+    @last_url = params[:last_url]
 
     @continue_path = entry_path
     obtain_authorization(:delete, 'url' => params[:url], 'coll_url' => params[:coll_url])

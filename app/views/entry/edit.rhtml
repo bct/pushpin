@@ -1,4 +1,4 @@
-<h2>editing <%= @entry.title ? %{"#{sanitize_html @entry.title.html}"} : 'an entry' %>, PushPin.</h2>
+<h2>editing <%= @entry.title ? %{"#{sanitize_html @entry.title.html}"} : 'an entry' %>.</h2>
 
 <div class="chunk">
   <% form_for(:entry, :url => entry_path, :html => { :method => :put } ) do |f| %>
