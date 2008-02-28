@@ -1,3 +1,10 @@
+  <h3>media file:</h3>
+    <label>from URL: <input name="new_file_url" /></label>
+  <h3>or</h3>
+    <label>upload: <input name="new_file_upload" type="file" /></label>
+
+  <h3 style="margin-top:2em;">description:</h3>
+
   <label class='title'>Title: <%= f.text_field :title %></label>
   <label class='tags'>Tags: <%= f.text_field :tags, :value => @entry.categories.map { |c| c['term'] }.join(' ') %></label>
 
@@ -14,13 +21,5 @@
       <% end %>
     </p>
   <% end %>
-
-  <h1 style="color:red;">New File</h1>
-
-  <label>New file URL: <input name="new_file_url" /></label><br />
-
-  <h1 style="color:red;">or</h1>
-
-  <label>Upload a new file: <input name="new_file_upload" type="file" /></label>
 
   <input type="hidden" name="entry[original]" value="<%=h @entry.to_s %>" />
