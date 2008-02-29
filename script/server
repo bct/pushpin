@@ -1,21 +1,4 @@
 #!/usr/bin/env ruby
 
-require 'highline'
-require 'crypt/rijndael'
-require 'md5'
-
-class Crypt::Rijndael
-  def encrypt str
-    encrypt_string str
-  end
-
-  def decrypt str
-    decrypt_string str
-  end
-end
-
-passkey = HighLine.new.ask("password: ") { |q| q.echo = 'x' }
-$crypt = Crypt::Rijndael.new(MD5.digest(passkey))
-
 require File.dirname(__FILE__) + '/../config/boot'
 require 'commands/server'

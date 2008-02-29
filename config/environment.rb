@@ -62,3 +62,23 @@ end
 require "atom/service"
 
 $http_cache_dir = "./tmp/httpcache"
+
+require 'highline'
+require 'crypt/rijndael'
+require 'md5'
+
+class Crypt::Rijndael
+  def encrypt str
+    encrypt_string str
+  end
+
+  def decrypt str
+    decrypt_string str
+  end
+end
+
+passkey = HighLine.new.ask("password: ") { |q| q.echo = 'x' }
+
+key = MD5.digest(passkey)
+puts 'check: ' + Base64.encode64(key[0,6])
+$crypt = Crypt::Rijndael.new(key)
