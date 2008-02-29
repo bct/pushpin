@@ -2,6 +2,7 @@ class EntryController < ApplicationController
   def index; end
 
   def create
+    @title = 'choose a collection to post this to:'
     @entry = make_entry(params[:entry])
   end
 

@@ -1,7 +1,15 @@
-<h2>remote error</h2>
+<div class="chunk">
+  <h2>remote error.</h2>
 
-<p>the remote server responded to my request with unexpected status code <%=h @res.code%>.</p>
+  <p>the remote server responded to my request to <%= _url(@last_url) %> with unexpected status <%= h(@res.code + ' ' + @res.message) %>.</p>
 
-<div class="remote-response">
-  <%= _display_remote_response(@res) %>
+  <ul>
+    <li>did you enter the correct URL?</li>
+  </ul>
+
+  <h3>the server's response:</h3>
+
+  <div class="remote-response">
+    <%= _display_remote_response(@res) %>
+  </div>
 </div>

@@ -85,6 +85,8 @@ class CollectionController < ApplicationController
 
     @status = 500
 
+    @last_url = @http.last_url
+
     render :template => 'static/remote_failure'
   end
 
@@ -127,6 +129,8 @@ class CollectionController < ApplicationController
     @res = e.res
 
     @status = 500
+
+    @last_url = @http.last_url
 
     render :template => 'static/remote_failure'
   end

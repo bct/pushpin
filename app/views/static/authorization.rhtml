@@ -1,11 +1,14 @@
 <div class='auth chunk'>
   <h2>you need to authenticate.</h2>
 
+  <p>
+    The server at <%= _url(@last_url) %>
   <% if @failed %>
-    <p>The server at <%=h @last_url %> rejected those authentication details.</p>
+    rejected those authentication details.
   <% else %>
-    <p>The server at <%=h @last_url %> needs you to authenticate.</p>
+    needs you to authenticate.
   <% end %>
+  </p>
 
   <% form_tag @continue_path, :method => @continue_method do %>
 

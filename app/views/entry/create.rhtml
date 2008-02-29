@@ -1,9 +1,11 @@
-<h3>choose a collection to post this to:</h3>
+<div class="chunk">
+  <h2>choose a collection to post this to:</h2>
 
-<%= form_tag :controller => 'collection', :action => 'create' %>
-  <label>collection url: <input name="url" /></label>
+  <%= form_tag :controller => 'collection', :action => 'create' %>
+    <label>collection url: <input name="url" /></label>
 
-  <input type="hidden" name="entry[complete]" value="<%=h @entry.to_s %>" />
+    <input type="hidden" name="entry[complete]" value="<%=h @entry.to_s %>" />
 
-  <div class="submission"><input class="submit" type="submit" value="continue..." /></div>
-</form>
+    <div class="submission"><input class="submit" type="submit" value="continue..." /></div>
+  </form>
+</div>

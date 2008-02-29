@@ -42,6 +42,10 @@ module ApplicationHelper
       '<pre>' + h(response.body.to_s) + '</pre>'
     end
   end
+
+  def _url url
+    '<span class="url">' + h(url) + '</span>'
+  end
 end
 
 class Hash

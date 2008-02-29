@@ -303,3 +303,9 @@ input.subtle:hover, input.delete:hover {
   width: 60%;
   margin: 1em auto;
 }
+
+.url {
+  font-family: monospace;
+  background: #e0e0e0;
+  padding: 0 0.3em;
+}
