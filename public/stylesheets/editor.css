@@ -298,3 +298,8 @@ input.subtle:hover, input.delete:hover {
   margin: 1em auto;
   text-indent: 2em;
 }
+
+.chunk > ul {
+  width: 60%;
+  margin: 1em auto;
+}

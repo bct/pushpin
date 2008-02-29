@@ -5,4 +5,6 @@
   <% if @user %><li><%= link_to "add collection", new_user_collections_path %></li><% end %>
 </ul>
 
-<%= render :partial => "collections/new" %>
+<div class="chunk">
+  <%= render :partial => "collections/new" %>
+</div>

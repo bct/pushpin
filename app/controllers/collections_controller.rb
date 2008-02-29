@@ -1,6 +1,8 @@
 # the logged-in user's Atom Publishing Protocol Collections
 class CollectionsController < ApplicationController
   def new
+    @title = 'add a new collection.'
+
     @collection = Collection.new
   end
 

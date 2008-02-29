@@ -186,6 +186,9 @@ class ApplicationController < ActionController::Base
         ps['deferred_media'] = write_deferred_media(ps['deferred_media'])
       end
       redirect_to authsub_url(ps)
+    rescue Errno::ECONNREFUSED
+      @last_url = @http.last_url
+      render :template => 'static/conn-refused'
     end
   end
 

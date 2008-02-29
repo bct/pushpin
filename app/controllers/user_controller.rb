@@ -1,5 +1,7 @@
 class UserController < ApplicationController
   def show
+    @title = 'you.'
+
     redirect_to '/' unless @user
   end
 

@@ -1,18 +1,26 @@
 <div class="chunk">
   <h2 id="collections">your collections.</h2>
 
-  <table style="margin: 0 auto">
-    <tr><th>title</th><th colspan="3">tools</th></tr>
-  <% for collection in @user.collections %>
-    <tr>
-      <td><%=h collection.title %></td>
-      <td><%= link_to 'edit', :controller => 'collection', :action => 'show', :url => collection.url %></td>
-      <td><%= link_to 'options', :controller => 'collection', :action => 'edit', :url => collection.url %></td>
-      <td><%=  button_to "forget", user_collections_path(:url => collection.url),
-        :class => 'submit subtle', :confirm => "are you sure?", :method => :delete %></td>
-    </tr>
+  <% if @user.collections.empty? %>
+    <p>you don't have any collections.</p>
+  <% else %>
+    <table style="margin: 0 auto">
+      <tr><th>title</th><th colspan="3">tools</th></tr>
+    <% for collection in @user.collections %>
+      <tr>
+        <td><%=h collection.title %></td>
+        <td><%= link_to 'edit', :controller => 'collection',
+                                :action => 'show',
+                                :url => collection.url %></td>
+        <td><%= link_to 'options',  :controller => 'collection',
+                                    :action => 'edit',
+                                    :url => collection.url %></td>
+        <td><%=  button_to "forget", user_collections_path(:url => collection.url),
+          :class => 'submit subtle', :confirm => "are you sure?", :method => :delete %></td>
+      </tr>
+    <% end %>
+    </table>
   <% end %>
-  </table>
 
   <%= render :partial => "collections/new" %>
 </div>
