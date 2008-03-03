@@ -2,6 +2,15 @@
   <h2>choose a collection to post this to:</h2>
 
   <%= form_tag :controller => 'collection', :action => 'create' %>
+
+  <% if @user and not @user.collections.empty? %>
+    <ul>
+    <% @user.collections.each do |coll| %>
+      <li><label><input type="radio" name="url" value="<%= coll.url %>" /> <%= coll.title %></label></li>
+    <% end %>
+    </ul>
+  <% end %>
+
     <label>collection url: <input name="url" /></label>
 
     <input type="hidden" name="entry[complete]" value="<%=h @entry.to_s %>" />

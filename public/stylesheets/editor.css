@@ -133,6 +133,10 @@ label {
   line-height: 2em;
 }
 
+li > label {
+  text-align: left;
+}
+
 label.title, label.tags, label.url, label.rating {
   float: left;
   text-align: right;
