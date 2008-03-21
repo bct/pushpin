@@ -137,7 +137,7 @@ li > label {
   text-align: left;
 }
 
-label.title, label.tags, label.url, label.rating {
+label.title, label.tags, label.url_in, label.rating {
   float: left;
   text-align: right;
   margin: 0.5em 0;
@@ -148,7 +148,7 @@ label.title, label.url {
   width: 50%;
 }
 
-label.title input, label.url input {
+label.title input, label.url_in input {
   width: 76%;
   margin-left: 8%;
 }

@@ -46,6 +46,20 @@ module ApplicationHelper
   def _url url
     '<span class="url">' + h(url) + '</span>'
   end
+
+  INPUT_TYPES = {
+              :slug => ['Slug', 'url_in', "a short name for your entry for the server to put in the URL it generates"],
+
+             }
+
+  def _infoed_input name, default = ''
+    short, klass, explanation = INPUT_TYPES[name]
+    return <<END
+<label class='#{klass} infoed' 
+      title='#{explanation}'>#{short}:
+<input name='#{name}' value='#{ h(default) }'></label>
+END
+  end
 end
 
 class Hash

@@ -1,12 +1,12 @@
 <input type="hidden" name="entry[links][][rel]" value="related" />
 
-<label class="url">URL: <input name="entry[links][][href]" value="<%=
+<label class="url_in">URL: <input name="entry[links][][href]" value="<%=
   link = @entry.links.find { |l| l['rel'] == 'related' }
 link ? h(link['href']) : ''%>" /></label>
 
 <br />
 
-<label class='title'>Title: <%= f.text_field :title, :value => (@entry.title ? h(@entry.title.html) : '') %></label>
+<label class='title'>Title: <%= f.text_field :title, :value => (@entry.title ? h(@entry.title.to_s) : '') %></label>
 <label class='tags'>Tags: <%= f.text_field :tags, :value => @entry.categories.map { |c| c['term'] }.join(' ') %></label>
 
 <br />

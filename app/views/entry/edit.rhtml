@@ -8,7 +8,10 @@
     <input type="hidden" name="coll_url" value="<%= h @coll_url %>" />
 
     <div class="submission">
-      <%= submit_tag 'update it!', :class => 'primary' %>
+      <% if @entry.draft %>
+        <input type="submit" value="publish!" name="entry[publish]" class="primary" />
+      <% end %>
+      <input type="submit" value="update it!" <%= 'class="primary"' unless @entry.draft %> />
     </div>
   <% end %>
 </div>

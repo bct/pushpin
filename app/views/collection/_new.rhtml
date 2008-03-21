@@ -7,6 +7,8 @@
             :html => { :multipart => this_is_media_coll }
            ) do |f| %>
 
+  <%= _infoed_input :slug, params[:slug] %>
+
   <%= render :partial => "editor/#{@coll.kind}", :locals => { :f => f } %>
 
   <input type="hidden" name="url" value="<%=h @coll_url%>" />
@@ -17,8 +19,8 @@
 
   <div class="submission">
     <%= submit_tag 'post it!', :class => 'primary' %>
-    <% unless true or this_is_media_coll %>
-      <input type="submit" value="save as draft" name='entry[draft]'/>
+    <% unless this_is_media_coll %>
+      <input type="submit" value="save as draft." name='entry[draft]'/>
     <% end %>
   </div>
 <% end %>
