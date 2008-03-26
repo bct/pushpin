@@ -36,7 +36,9 @@ class EntryController < ApplicationController
         flash[:notice] = 'Entry was successfully updated.'
         redirect_to :controller => 'collection', :action => 'show', :url => @coll_url
       else
-        raise "the server at #{@entry_url} responded to my PUT with unexpected status code #{@res.code}"
+        @status = 500
+
+        render :template => 'static/remote_failure'
       end
     end
   end
@@ -62,7 +64,9 @@ class EntryController < ApplicationController
             flash[:notice] = 'Entry was deleted.'
             redirect_to :controller => 'collection', :action => 'show', :url => @coll_url
           else
-            raise "the server at #{@delete_url} responded to my DELETE with unexpected status code #{@res.code}"
+            @status = 500
+
+            render :template => 'static/remote_failure'
           end
         elsif @needs_auth == :authsub
           redirect_to next_url
