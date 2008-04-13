@@ -11,7 +11,7 @@
       <li><%= link_to "this collection's settings", edit_collection_path(:url => @coll.url) %></li>
 
       <% if @coll.kind == 'link' %>
-        <li><%= link_to "bookmarklet: post link to #{@coll.title}", h("javascript:document.location='#{new_collection_path(:only_path => false)}?url=#{@coll_url}&entry[title]=' + document.title + '&entry[links][][rel]=related&entry[links][][href]=' + document.location + '&redirect=' + document.location;") %></li>
+        <li>bookmarklet: <%= link_to "post link to #{@coll.title}", h("javascript:document.location='#{new_collection_path(:only_path => false)}?url=#{@coll_url}&entry[title]=' + document.title + '&entry[links][][rel]=related&entry[links][][href]=' + document.location + '&redirect=' + document.location;") %></li>
       <% end %>
     <% end %>
   <% else %>
