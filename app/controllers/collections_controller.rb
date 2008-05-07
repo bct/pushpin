@@ -17,8 +17,9 @@ class CollectionsController < ApplicationController
       if res.code == '200'
         case res["Content-Type"]
         when /application\/atom\+xml/
-          coll = Atom::Collection.parse res.body, @coll_url
-          @collection = Collection.new(:url => @coll_url, :user_id => @user, :title => coll.title.to_s)
+          feed = Atom::Feed.parse res.body, @coll_url
+          @collection = find_coll(@coll_url)
+          @collection.title = feed.title.to_s
 
           @collection.save!
 

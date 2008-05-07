@@ -6,7 +6,7 @@
 
     <ul>
       <% w.collections.each do |c| %>
-        <li><%= link_to h(c.title), collection_path(:url => c.uri.to_s) %></li>
+        <li><%= link_to h(c.title), collection_path(:url => c.href.to_s) %></li>
       <% end %>
     </ul>
   <% end %>

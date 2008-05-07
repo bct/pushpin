@@ -17,7 +17,7 @@ class Collection < ActiveRecord::Base
   def update!
     get_atom
 
-    @atom.update!
+    @atom.feed.update!
 
     unless new_record? or not @atom.title or (@atom.title.html == self.title)
       self.title = @atom.title.html
@@ -64,11 +64,11 @@ class Collection < ActiveRecord::Base
   include Enumerable
 
   def each &block
-    @atom.each &block
+    @atom.feed.each &block
   end
 
   def empty?
-    @atom.empty?
+    @atom.feed.empty?
   end
 
   def self.kinds

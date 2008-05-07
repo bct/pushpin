@@ -59,6 +59,8 @@ end
 
 # Include your application configuration below
 
+gem 'atom-tools', '>= 2'
+
 require "atom/service"
 
 $http_cache_dir = "./tmp/httpcache"
