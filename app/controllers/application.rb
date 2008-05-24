@@ -103,6 +103,8 @@ class ApplicationController < ActionController::Base
 
     if params[:draft] and not params[:draft].empty?
       entry.draft = true
+    elsif params[:publish] and not params[:publish].empty?
+      entry.draft = false
     end
 
     if author = params[:author]

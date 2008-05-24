@@ -58,7 +58,7 @@ class CollectionController < ApplicationController
 
   def post_regular_entry
     maybe_needs_authorization('url' => @coll_url, 'entry' => { 'original' => @entry.to_s}) do
-      @res = @coll.post! @entry
+      @res = @coll.post! @entry, params[:slug]
 
       if @redirect
         redirect_to @redirect
@@ -107,7 +107,7 @@ class CollectionController < ApplicationController
     end
 
     maybe_needs_authorization('url' => @coll_url, 'entry' => params[:entry], 'deferred_media' => media, 'deferred_media_type' => mimetype) do
-      @res = @coll.post_media!(media, mimetype) do |orig|
+      @res = @coll.post_media!(media, mimetype, params[:slug]) do |orig|
         ps = params[:entry]
 
         if orig
