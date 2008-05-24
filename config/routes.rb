@@ -2,21 +2,21 @@ ActionController::Routing::Routes.draw do |map|
   # first created -> highest priority.
 
   # this user
-  map.resource :user do |user|
+  map.resource :user, :controller => :user do |user|
     # this user's collections
     user.resource :collections
   end
 
   # a remote service document
-  map.resource :service
+  map.resource :service, :controller => :service
 
   # a remote collection
-  map.resource :collection
+  map.resource :collection, :controller => :collection
 
   # a remote entry
-  map.resource :entry, :collection => { :delete_authorization => :get }
+  map.resource :entry, :controller => :entry, :collection => { :delete_authorization => :get }
 
-  map.resource :authsub
+  map.resource :authsub, :controller => :authsub
 
   # front page
   map.connect '', :controller => 'static', :action => 'index'
