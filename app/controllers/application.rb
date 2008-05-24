@@ -224,6 +224,9 @@ class PushpinHTTP < Atom::HTTP
   # the last URL we made a request to
   attr_reader :last_url
 
+  # how long the last request took
+  attr_reader :took
+
   def initialize(user, params)
     super $http_cache_dir
 
@@ -270,8 +273,14 @@ class PushpinHTTP < Atom::HTTP
   end
 
   def http_request(url_s, *args)
+    began = Time.now
+
     @last_url = url_s
 
-    super
+    r = super
+
+    @took = Time.now - began
+
+    r
   end
 end

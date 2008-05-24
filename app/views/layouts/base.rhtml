@@ -30,6 +30,9 @@
 <ul class="nav">
   <li><a href="http://necronomicorp.com/lab/tag/pushpin">blog</a></li>
   <li><a href="http://necronomicorp.com/bct">brendan taylor</a></li>
+  <% if @user and @user.openid_url == 'http://necronomicorp.com/bct' %>
+    <li><%= @http and '%.2fs' % @http.took.to_f %></li>
+  <% end %>
 </ul>
 
 </body>
