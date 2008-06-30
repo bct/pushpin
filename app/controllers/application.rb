@@ -90,7 +90,11 @@ class ApplicationController < ActionController::Base
       return Atom::Entry.parse(params[:complete])
     end
 
-    entry = params[:original] ? Atom::Entry.parse(params[:original]) : Atom::Entry.new
+    entry = if params[:original]
+              Atom::Entry.parse(params[:original], params[:base_url])
+            else
+              Atom::Entry.new
+            end
 
     entry.id = "urn:uuid:#{UUID.create}" unless entry.id
 

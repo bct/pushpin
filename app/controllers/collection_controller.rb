@@ -111,7 +111,8 @@ class CollectionController < ApplicationController
         ps = params[:entry]
 
         if orig
-          ps[:original] = @res.body
+          ps[:original] = orig
+          ps[:base_url] = @coll_url
         end
 
         @entry = make_entry(ps)
