@@ -28,6 +28,8 @@ class EntryController < ApplicationController
     @entry_url = n_url params[:url]
     @coll_url = n_url params[:coll_url]
 
+    params[:entry][:base_url] = @entry_url
+
     @entry = make_entry(params[:entry])
 
     maybe_needs_authorization('url' => @entry_url, 'coll_url' => @coll_url, 'entry' => { 'original' => @entry.to_s }) do
