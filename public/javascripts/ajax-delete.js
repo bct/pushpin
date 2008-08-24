@@ -1,5 +1,7 @@
 function deletedEntry(tr) {
-  tr.fadeOut(function() { $(this).remove(); });
+  tr.fadeOut(500, function() {
+    tr.remove();
+  });
 }
 
 function failDeleteEntry(xhr, tr) {
