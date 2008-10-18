@@ -21,6 +21,10 @@ END
   <% else %>
     <p>this collection is empty.</p>
   <% end %>
+
+  <% if @coll.next_feed_url %>
+    <%= link_to 'more entries...', :feed_url => @coll.next_feed_url, :url => @coll_url %>
+  <% end %>
 </div>
 
 <div class="chunk">

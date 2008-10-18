@@ -7,7 +7,7 @@ class CollectionController < ApplicationController
     @coll = find_coll(@coll_url)
 
     maybe_needs_authorization('url' => @coll_url) do
-      @coll.update!
+      @coll.update! params[:feed_url]
 
       @title = "editing collection #{@coll.title.to_s.inspect}."
 

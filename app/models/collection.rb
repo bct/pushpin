@@ -10,12 +10,20 @@ class Collection < ActiveRecord::Base
   # #http= must be set to use any of the HTTP stuff
   attr_accessor :http
 
-  def get_atom
-    @atom ||= Atom::Collection.new self.url, @http
+  def next_feed_url
+    if @atom.feed.prev
+      @atom.feed.prev.uri
+    end
   end
 
-  def update!
-    get_atom
+  def get_atom url = self.url
+    @atom ||= Atom::Collection.new url, @http
+  end
+
+  def update! feed_url
+    feed_url ||= self.url
+
+    get_atom feed_url
 
     @atom.feed.update!
 
