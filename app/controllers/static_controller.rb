@@ -2,6 +2,8 @@ class StaticController < ApplicationController
   def index
     @title = 'PushPin!'
     @entry = Atom::Entry.new
+
+    redirect_to user_path()
   end
 
   def signup
