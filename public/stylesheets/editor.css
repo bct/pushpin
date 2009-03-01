@@ -110,7 +110,7 @@ td.title {
 form {
   margin: 0 auto;
   width: 80%;
-  max-width: 40em;
+  max-width: 60em;
   font-size: 1.2em;
 }
 
@@ -118,6 +118,10 @@ label input, textarea, label select {
   width: 70%;
   margin-left: 5%;
   border: 1px solid #ccc;
+}
+
+textarea {
+  width: 75%;
 }
 
 input.checkbox {
