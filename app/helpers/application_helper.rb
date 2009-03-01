@@ -21,10 +21,11 @@ module ApplicationHelper
 
   # input to this MUST be UTF-8
   def html_to_markdown(html)
-    p = IO.popen("python ./vendor/html2text.py", "w+")
-    p.puts html
-    p.close_write
-    p.read
+    IO.popen("python ./vendor/html2text.py", "w+") do |p|
+      p.puts html
+      p.close_write
+      p.read
+    end
   end
 
   def hash_to_hidden_inputs(hash)
