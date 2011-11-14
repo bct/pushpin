@@ -1,8 +1,6 @@
 # pushpin #
 
-pushpin is an [Atom Publishing Protocol][APP] client.
-
-There's a live version at <http://necronomicorp.com/pushpin>.
+pushpin is an [Atom Publishing Protocol][APP] web client.
 
 It uses OpenID for login.
 
